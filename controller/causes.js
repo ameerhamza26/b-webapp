@@ -47,3 +47,23 @@ exports.edit = function(req, res){
       res.render('causeedit.ejs',{data:result, message: message});
    });
 };
+
+
+exports.list = function(req,res){
+    var sql = "Select * From Causes";
+    db.query(sql, function(err, result){
+        if(result.length >= 0){
+            res.send({data: result});
+        }else{
+            res.send({data:[]})
+        }
+
+    });
+
+}
+
+exports.getAll = function (req, res) {
+
+
+
+}

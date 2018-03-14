@@ -7,17 +7,31 @@ var express = require('express')
   busboy = require("then-busboy"),
   fileUpload = require('express-fileupload'),
   app = express(),
-  mysql      = require('mysql'),
+  mysql = require('mysql'),
   bodyParser=require("body-parser");
-  
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'root',
-  database : 'burmacausemanagement'
-});
 
-connection.connect();
+  //var Sequelize = require('sequelize');
+  //var sequelize = new Sequelize('burmacausemanagement', 'root', '', {
+  //  host: 'localhost',
+  //  dialect: 'mysql',
+  //  pool: {
+  //    max: 5,
+  //    min: 0,
+  //    idle: 10000
+  //  },
+  //
+  //
+  //});
+  
+  
+ var connection = mysql.createConnection({
+   host     : 'localhost',
+   user     : 'root',
+   password : '',
+   database : 'burmacausemanagement'
+ });
+
+ connection.connect();
 
 global.db = connection;
 
@@ -31,6 +45,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload());
 
 //Middleware
-app.listen(8001)
-
+app.listen(8001);
+console.log("SERVER LISTENING AT PORT : 8001");
 require('./routes')(app);

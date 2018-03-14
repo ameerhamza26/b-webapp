@@ -1,0 +1,57 @@
+<% include partials/head %>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad"
+            style="padding-top:30px">
+            <% if (message.length > 0) { %>
+                <div class="alert alert-danger col-sm-12">
+                    <%= message %>
+                </div>
+                <% } else {%>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <%=data[0].Title%>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class=" col-md-9 col-lg-9 ">
+                                    <table class="table table-user-information">
+                                        <tbody>
+                                            <tr>
+                                                <td>Location:</td>
+                                                <td>
+                                                    <%=data[0].Location%>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Start Date:</td>
+                                                <td>
+                                                    <%=data[0].StartDate%>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>End Date:</td>
+                                                <td>
+                                                    <%=data[0].EndDate%>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Notes:</td>
+                                                <td>
+                                                    <%=data[0].Notes%>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+        </div>
+    </div>
+
+    <% include partials/footer %>
