@@ -6,7 +6,18 @@ var talkingPoints = require('./controller/talkingpoints');
 // development only
 
 module.exports = function (app) {
+
+
+
     app.get('/', index.index);//call for main index page
+    app.get('/login', index.index);
+    app.get('/signup', index.signup);
+    app.post('/signup', index.signup);
+
+    app.get('/home', index.home );
+
+    app.post('/login', index.login)
+
     app.get('/causes/edit/:id', causes.edit);
     app.post('/create/cause', causes.create);
     app.get('/create/cause', causes.create);
