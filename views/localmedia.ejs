@@ -1,0 +1,32 @@
+<% include partials/head %>
+<body>
+    <% include partials/header %>
+    
+    <div class="container">
+        <div class="py-5 text-center">
+            <p class="lead mt-5">Welcome to Burma cause management</p>
+        </div>
+
+        <% include partials/sidemenu %>
+
+        <div class="col-md-8 order-md-2">
+            <h4 class="mb-3">Events</h4>
+            <a href="/create/localmedia" class="btn btn-primary btn-lg" type="button">Add new</a>
+
+            <input id="event-search" class="form-control mr-sm-2" type="search" placeholder="Search by causes" aria-label="Search">
+            <div id="event-list-group" class="list-group">
+                <% for(var i=0; i<data.length; i++) { %>
+                    <a href="/localmedia/edit/<%=data[i].ID%>" class="list-group-item">
+                        <h4 class="list-group-item-heading"><%=data[i].Name%></h4>
+                    </a>
+                <% } %>
+            </div>
+        </div>
+
+    </div>
+
+    <% include partials/footer %>
+
+</body>
+
+

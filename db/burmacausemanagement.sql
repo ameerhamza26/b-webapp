@@ -163,3 +163,20 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+
+
+-- ----------------------------
+-- Table structure for localmedia
+-- ----------------------------
+DROP TABLE IF EXISTS `localmedia`;
+CREATE TABLE `localmedia` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(255) DEFAULT NULL,
+  `Contact` varchar(255) DEFAULT NULL,
+  `Image` varchar(255) DEFAULT NULL,
+  `CityId` int(11) DEFAULT NULL,
+  `StateId` int(11) DEFAULT NULL,
+  `CountryId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

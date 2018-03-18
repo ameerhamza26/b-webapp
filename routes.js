@@ -3,6 +3,8 @@ var causes = require('./controller/causes');
 var events = require('./controller/events');
 var resources = require('./controller/resources');
 var talkingPoints = require('./controller/talkingpoints');
+var localmedia = require('./controller/media');
+var country = require('./controller/country');
 // development only
 
 module.exports = function (app) {
@@ -34,7 +36,11 @@ module.exports = function (app) {
 
     app.get('/events/edit/:id', events.edit);
 
+    app.get('/localmedia',localmedia.get);
 
+    app.get('/create/localmedia', localmedia.create );
+    app.post('/create/localmedia', localmedia.create );
+    app.get('/localmedia/edit/:id', localmedia.edit);
 
     app.get('/create/resource', resources.create);
     app.post('/create/resource', resources.create);
@@ -43,6 +49,8 @@ module.exports = function (app) {
     /*Mobile Web  */
     app.get('/api/causes/list', causes.list);
     app.get('/api/causes/all' , causes.getAll);
-
+    app.get('/api/states/:countryId', country.getStateByCountry);
+    
+    app.get('/api/cities/:stateId', country.getCitiesByState);
 
 }

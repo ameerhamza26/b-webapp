@@ -14,4 +14,41 @@ $(document).ready(function(){
             });
         
     });
+
+    $('.selectpicker').selectpicker();
+    $(".bootstrap-select").click(function () {
+        console.log("in select class")
+        $(this).addClass("open");
+        $('.selectpicker').addClass('open');
+   });
+
+   $('#country-select').on('change', function() {
+    $('#state-select')
+    .empty();
+    $.get("/api/states/"+this.value, function(data, status){
+        $.each(data.data, function (i, item) {
+            $('#state-select').append($('<option>', { 
+                value: item.id,
+                text : item.name 
+            }));
+        });
+    });
+  })
+
+  $('#state-select').on('change', function() {
+    $('#city-select')
+    .empty();
+    $.get("/api/cities/"+this.value, function(data, status){
+        $.each(data.data, function (i, item) {
+            $('#city-select').append($('<option>', { 
+                value: item.id,
+                text : item.name 
+            }));
+        });
+    });
+  })
+
+  $('#city-select').on('change', function() {
+    // alert( this.value );
+  })
 });
