@@ -1,3 +1,4 @@
+var authentication =require('../helpers/authentication');
 
 exports.create = function (req, res) {
     message = '';
@@ -40,3 +41,30 @@ exports.edit = function (req, res) {
         res.render('eventedit.ejs', { data: result, message: message });
     });
 };
+
+
+exports.get =function(req,res) {
+
+    if (!authentication.authenticate(req)){
+        res.redirect("/login");
+        return;
+    }
+
+    var sql = "";
+    
+    if (req.query.title) {
+        title= req.query.title;
+        sql = "Select `events`.*, causes.Title as CauseTitle from `events` INNER JOIN causes on `events`.CauseId = causes.ID where CauseTitle like '%" + title+"%'";
+    }
+    else {
+        sql = "Select `events`.*, causes.Title as CauseTitle from `events` INNER JOIN causes on `events`.CauseId = causes.ID";
+    }
+    
+    db.query(sql, function(err, result){
+        if(result.length >= 0){
+            res.render('eventslist',{data: result});
+        }else{
+            res.render('eventslist',{data:[]})
+        }
+    });
+}

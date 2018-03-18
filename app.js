@@ -8,6 +8,7 @@ var express = require('express')
   fileUpload = require('express-fileupload'),
   app = express(),
   mysql = require('mysql'),
+  morgan  = require('morgan'),
   bodyParser=require("body-parser");
 
   //var Sequelize = require('sequelize');
@@ -41,6 +42,16 @@ app.use(session({
  connection.connect();
 
 global.db = connection;
+
+app.use(morgan('dev'));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "Origin, x-access-token, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  next();
+});
+
 
 // all environments
 app.set('port', process.env.PORT || 8080);

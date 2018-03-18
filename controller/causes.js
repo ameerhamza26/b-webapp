@@ -50,7 +50,7 @@ exports.edit = function(req, res){
 
 
 exports.list = function(req,res){
-    var sql = "Select * From Causes";
+    var sql = "Select * From Causes order by ID desc";
     db.query(sql, function(err, result){
         if(result.length >= 0){
             res.send({data: result});
@@ -60,6 +60,24 @@ exports.list = function(req,res){
 
     });
 
+}
+
+exports.search = function(req,res) {
+    var message = '';
+    var title = req.query.title;
+    
+    var sql = "Select `events`.*, causes.Title as CauseTitle from `events` INNER JOIN causes on `events`.CauseId = causes.ID where  causes.Title like '%" + title+"%'";
+    db.query(sql, function(err, result){
+        if (err) {
+            res.send({data:[]})
+        }
+        
+        if(result.length >= 0){
+            res.send({data: result});
+        }else{
+            res.send({data:[]})
+        }
+   });
 }
 
 exports.getAll = function (req, res) {

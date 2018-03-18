@@ -21,6 +21,9 @@ module.exports = function (app) {
     app.get('/causes/edit/:id', causes.edit);
     app.post('/create/cause', causes.create);
     app.get('/create/cause', causes.create);
+    app.get('/cause/search', causes.search);
+
+    app.get('/events', events.get);
     app.get('/create/event', events.create);
 
     app.get('/create/talkingpoints', talkingPoints.create);
