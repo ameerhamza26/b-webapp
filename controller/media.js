@@ -88,3 +88,36 @@ exports.get =function(req,res) {
         }
     });
 }
+
+
+
+exports.search = function(req,res) {
+    var message = '';
+    var text = req.query.text;
+    
+    var sql = "select localmedia.*, cities.`name` as CityName, states.`name` as StateName, countries.`name` as CountryName  from countries \
+    inner join \
+    states \
+    on countries.id = states.country_id \
+    INNER JOIN \
+    cities \
+    on states.id = cities.state_id \
+    inner JOIN \
+    localmedia \
+    on cities.id = localmedia.CityId \
+    where cities.`name` like '%" + text+ "%' or \
+    states.`name` like '%" + text+ "%' or \
+    countries.`name` like '%" + text+ "%'";
+    
+    db.query(sql, function(err, result){
+        if (err) {
+            res.send({data:[]})
+        }
+        
+        if(result.length >= 0){
+            res.send({data: result});
+        }else{
+            res.send({data:[]})
+        }
+   });
+}

@@ -42,9 +42,11 @@ module.exports = function (app) {
     app.post('/create/localmedia', localmedia.create );
     app.get('/localmedia/edit/:id', localmedia.edit);
 
+
     app.get('/create/resource', resources.create);
     app.post('/create/resource', resources.create);
     app.get('/resources/edit/:id', resources.edit);
+
 
     /*Mobile Web  */
     app.get('/api/causes/list', causes.list);
@@ -52,5 +54,7 @@ module.exports = function (app) {
     app.get('/api/states/:countryId', country.getStateByCountry);
     
     app.get('/api/cities/:stateId', country.getCitiesByState);
+
+    app.get('/api/localmedia/search', localmedia.search);
 
 }

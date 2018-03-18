@@ -15,6 +15,20 @@ $(document).ready(function(){
         
     });
 
+    $('#localmedia-search').on('input', function() {
+        
+        $.get("/api/localmedia/search?text=" + $('#localmedia-search').val(), function(data, status){
+            var html="";
+            for (var i = 0; i<data.data.length;i++) {
+                html+= '<a href="/localmedia/edit/'+data.data[i].ID+'" class="list-group-item">'+
+                '<h4 class="list-group-item-heading">'+ data.data[i].Name + '</h4>'+
+                '</a>'
+            }
+            $('#event-list-group').html(html);
+        });
+    
+    });
+
     $('.selectpicker').selectpicker();
     $(".bootstrap-select").click(function () {
         console.log("in select class")
