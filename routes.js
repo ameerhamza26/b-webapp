@@ -5,6 +5,7 @@ var resources = require('./controller/resources');
 var talkingPoints = require('./controller/talkingpoints');
 var localmedia = require('./controller/media');
 var country = require('./controller/country');
+var survey = require('./controller/survey');
 // development only
 
 module.exports = function (app) {
@@ -47,6 +48,11 @@ module.exports = function (app) {
     app.post('/create/resource', resources.create);
     app.get('/resources/edit/:id', resources.edit);
 
+
+    app.get('/survey', survey.get);
+    app.get('/create/survey', survey.create );
+    app.post('/create/survey', survey.create );
+    app.get('/survey/edit/:id', survey.create );
 
     /*Mobile Web  */
     app.get('/api/causes/list', causes.list);

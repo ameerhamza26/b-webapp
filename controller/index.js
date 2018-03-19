@@ -41,9 +41,9 @@ exports.signup = function(req, res){
        var fname= post.first_name;
        var lname= post.last_name;
        var mob= post.mob_no;
-  
+    
        var sql = "INSERT INTO `users`(`first_name`,`last_name`,`mob_no`,`user_name`, `password`) VALUES ('" + fname + "','" + lname + "','" + mob + "','" + name + "','" + pass + "')";
-  
+        console.log("Sql",sql);
        var query = db.query(sql, function(err, result) {
   
           message = "Succesfully! Your account has been created.";
