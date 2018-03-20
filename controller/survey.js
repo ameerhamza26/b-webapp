@@ -18,9 +18,13 @@ exports.get =function(req,res) {
     }
     
     db.query(sql, function(err, result){
-        if(result.length >= 0){
-            res.render('survey.ejs',{data: result});
-        }else{
+        if (result) {
+            if(result.length >= 0){
+                res.render('survey.ejs',{data: result});
+            } else{
+                res.render('survey.ejs',{data:[]})
+            }
+        } else{
             res.render('survey.ejs',{data:[]})
         }
     });
