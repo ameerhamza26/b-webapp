@@ -24,7 +24,7 @@ exports.create = function (req, res) {
                     return res.status(500).send(err);
                     console.log(cause_id);
                     
-                var sql = "INSERT INTO `Resources`(`Title`,`CauseId`, `Description`,`File`) VALUES ('" + title + "', '" + cause_id + "','" + description + "','" + file_name + "')";
+                var sql = "INSERT INTO `resources`(`Title`,`CauseId`, `Description`,`File`) VALUES ('" + title + "', '" + cause_id + "','" + description + "','" + file_name + "')";
 
                 var query = db.query(sql, function (err, result) {
                     res.redirect('/resources/edit/' + result.insertId);
@@ -36,7 +36,7 @@ exports.create = function (req, res) {
         }
     } else {
         console.log('Hello');
-        var sql = "SELECT `ID`, `Title` FROM `Causes`";
+        var sql = "SELECT `ID`, `Title` FROM `causes`";
         db.query(sql, function (err, result) {
             if (result.length <= 0)
                 message = "Causes not found!";
@@ -51,7 +51,7 @@ exports.create = function (req, res) {
 exports.edit = function (req, res) {
     var message = '';
     var id = req.params.id;
-    var sql = "SELECT * FROM `Resources` WHERE `id`='" + id + "'";
+    var sql = "SELECT * FROM `resources` WHERE `id`='" + id + "'";
     db.query(sql, function (err, result) {
         if (result.length <= 0)
             message = "Resources not found!";

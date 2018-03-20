@@ -11,10 +11,10 @@ exports.get =function(req,res) {
     
     if (req.query.title) {
         title= req.query.title;
-        sql = "Select * from Survey";
+        sql = "Select * from survey";
     }
     else {
-        sql = "Select * from Survey";
+        sql = "Select * from survey";
     }
     
     db.query(sql, function(err, result){
@@ -38,13 +38,13 @@ exports.create = function (req, res) {
         var cause_id = post.causeId;
         var title = post.title;
         
-        var sql = "INSERT INTO `Survey`(`CauseId`,`Title`) VALUES ('" + cause_id + "','" + title + "')";
+        var sql = "INSERT INTO `survey`(`CauseId`,`Title`) VALUES ('" + cause_id + "','" + title + "')";
 
         var query = db.query(sql, function (err, result) {
             res.redirect('/survey/edit/'+result.insertId);
         });
     } else {
-        var sql = "SELECT `ID`, `Title` FROM `Causes`";
+        var sql = "SELECT `ID`, `Title` FROM `causes`";
         db.query(sql, function (err, result) {
             if (result.length <= 0)
                 message = "Causes not found!";

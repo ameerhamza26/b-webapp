@@ -33,7 +33,7 @@ exports.create = function (req, res) {
 exports.edit = function (req, res) {
     var message = '';
     var id = req.params.id;
-    var sql = "SELECT * FROM `Events` WHERE `id`='" + id + "'";
+    var sql = "SELECT * FROM `events` WHERE `id`='" + id + "'";
     db.query(sql, function (err, result) {
         if (result.length <= 0)
             message = "Cause not found!";

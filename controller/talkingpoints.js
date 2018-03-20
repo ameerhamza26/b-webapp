@@ -17,7 +17,7 @@ exports.create = function (req, res) {
             res.redirect('/talkingpoints/view/'+result.insertId);
         });
     } else {
-        var sql = "SELECT `ID`, `Title` FROM `Causes`";
+        var sql = "SELECT `ID`, `Title` FROM `causes`";
         db.query(sql, function (err, result) {
             if (result.length <= 0)
                 message = "Causes not found!";

@@ -19,7 +19,7 @@ exports.create = function(req,res) {
                    if (err)
  
                      return res.status(500).send(err);
-                           var sql = "INSERT INTO `Causes`(`Title`,`Description`,`Image`) VALUES ('" + title + "','" + description + "','" + img_name + "')";
+                           var sql = "INSERT INTO `causes`(`Title`,`Description`,`Image`) VALUES ('" + title + "','" + description + "','" + img_name + "')";
  
                              var query = db.query(sql, function(err, result) {
                                   res.redirect('/causes/edit/'+result.insertId);
@@ -39,7 +39,7 @@ exports.create = function(req,res) {
 exports.edit = function(req, res){
 	var message = '';
 	var id = req.params.id;
-    var sql="SELECT * FROM `Causes` WHERE `id`='"+id+"'"; 
+    var sql="SELECT * FROM `causes` WHERE `id`='"+id+"'"; 
     db.query(sql, function(err, result){
 	  if(result.length <= 0)
 	  message = "Cause not found!";
@@ -50,7 +50,7 @@ exports.edit = function(req, res){
 
 
 exports.list = function(req,res){
-    var sql = "Select * From Causes order by ID desc";
+    var sql = "Select * From causes order by ID desc";
     db.query(sql, function(err, result){
         if(result.length >= 0){
             res.send({data: result});
