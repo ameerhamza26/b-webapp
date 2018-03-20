@@ -61,10 +61,15 @@ exports.get =function(req,res) {
     }
     
     db.query(sql, function(err, result){
-        if(result.length >= 0){
-            res.render('eventslist',{data: result});
-        }else{
+        if (result) {
+            if(result.length >= 0){
+                res.render('eventslist',{data: result});
+            } else{
+                res.render('eventslist',{data:[]})
+            }
+        } else{
             res.render('eventslist',{data:[]})
         }
+
     });
 }
