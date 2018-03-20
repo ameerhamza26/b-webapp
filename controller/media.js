@@ -24,7 +24,7 @@ exports.create = function (req, res) {
 
                   return res.status(500).send(err);
 
-                  var sql = "INSERT INTO `LocalMedia`(`Name`,`Contact`,`Image`,`CityId`, `StateId`, `CountryId`) VALUES ('" + name + "','" + contact + "','" + img_name + "'," + cityId + "," + stateId + "," + countryId + ")";
+                  var sql = "INSERT INTO `localmedia`(`Name`,`Contact`,`Image`,`CityId`, `StateId`, `CountryId`) VALUES ('" + name + "','" + contact + "','" + img_name + "'," + cityId + "," + stateId + "," + countryId + ")";
 
                     var query = db.query(sql, function (err, result) {
                         res.redirect('/localmedia/edit/'+result.insertId);
@@ -53,7 +53,7 @@ exports.create = function (req, res) {
 exports.edit = function (req, res) {
     var message = '';
     var id = req.params.id;
-    var sql = "SELECT * FROM `LocalMedia` WHERE `id`='" + id + "'";
+    var sql = "SELECT * FROM `localmedia` WHERE `id`='" + id + "'";
     db.query(sql, function (err, result) {
         if (result.length <= 0)
             message = "LocalMedia not found!";
@@ -74,10 +74,10 @@ exports.get =function(req,res) {
     
     if (req.query.title) {
         title= req.query.title;
-        sql = "Select * from LocalMedia";
+        sql = "Select * from localmedia";
     }
     else {
-        sql = "Select * from LocalMedia";
+        sql = "Select * from localmedia";
     }
     
     db.query(sql, function(err, result){
