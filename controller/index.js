@@ -17,7 +17,7 @@ exports.home = function(req, res){
         return;
     }
 
-    var sql = "Select * From Causes";
+    var sql = "Select * From causes";
     db.query(sql, function(err, result){
         if(result.length >= 0){
             res.render('index',{data: result});
