@@ -10,6 +10,7 @@ var express = require('express')
   mysql = require('mysql'),
   morgan  = require('morgan'),
   bodyParser=require("body-parser");
+  var Twit = require('twit');
 
   //var Sequelize = require('sequelize');
   //var sequelize = new Sequelize('burmacausemanagement', 'root', '', {
@@ -62,7 +63,47 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload());
 
+
+
+var T = new Twit({
+  consumer_key:         'x1s5bZ0BBkLXEOQF0cUooj86z',
+  consumer_secret:      'SZAIIJLgHSpSLnAemfHUwtJg3NCKxn1GzQHoHx8oGkpGmRg8zq',
+  access_token:         '1288779955-yzF86U49qgjTZjiXSOt3dELarFJUouiAXO4XwxO',
+  access_token_secret:  '9TI9PeEETzfeCcgCyVcpEQYTvmRRwptehcE5NubcsQu6U',
+  timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
+})
+
+
+// var stream = T.stream('statuses/filter', { track: 'mango' })
+
+// stream.on('tweet', function (tweet) {
+//   console.log(tweet)
+// })
+
+var server = http.createServer(app);
+var io = require('socket.io')(server,{log:false, origins:'*:*'});
+
+
 //Middleware
-app.listen(8001);
+//app.listen(8001);
+server.listen(8001, '', function(){
+  console.log("Server up and running...");
+  });
+
 console.log("SERVER LISTENING AT PORT : 8001");
 require('./routes')(app);
+
+
+io.on('connection', (socket) => {
+
+  console.log('Socket.io connected');
+
+  socket.on('hash', function(hash){
+    var streamHash = hash.hash;
+    var stream = T.stream('statuses/filter', { track: 'PSL3' });
+
+    stream.on('tweet', function (tweet) {
+      io.emit('stream', {text:tweet.text, name:tweet.user.name, username:tweet.user.screen_name, icon:tweet.user.profile_image_url, hash:streamHash});
+    });
+  });
+});
