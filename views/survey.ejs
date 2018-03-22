@@ -13,8 +13,8 @@
             <h4 class="mb-3">Events</h4>
             <a href="/create/survey" class="btn btn-primary btn-lg" type="button">Add new</a>
 
-            <input id="localmedia-search" class="form-control mr-sm-2" type="search" placeholder="Search by title" aria-label="Search">
-            <div id="event-list-group" class="list-group">
+            <input id="survey-search" class="form-control mr-sm-2" type="search" placeholder="Search by Survey title or Cause title" aria-label="Search">
+            <div id="survey-list-group" class="list-group">
                 <% for(var i=0; i<data.length; i++) { %>
                     <a href="/survey/edit/<%=data[i].ID%>" class="list-group-item">
                         <h4 class="list-group-item-heading"><%=data[i].Title%></h4>

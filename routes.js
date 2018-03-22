@@ -52,7 +52,12 @@ module.exports = function (app) {
     app.get('/survey', survey.get);
     app.get('/create/survey', survey.create );
     app.post('/create/survey', survey.create );
-    app.get('/survey/edit/:id', survey.create );
+
+    app.post('/create/survey/:id/questions', survey.createQuestions);
+
+    app.get('/survey/edit/:id', survey.edit );
+
+    app.get('/api/survey/search', survey.search);
 
     /*Mobile Web  */
     app.get('/api/causes/list', causes.list);
