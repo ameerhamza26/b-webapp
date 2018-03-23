@@ -67,5 +67,7 @@ module.exports = function (app) {
     app.get('/api/cities/:stateId', country.getCitiesByState);
 
     app.get('/api/localmedia/search', localmedia.search);
-
+    app.get('/api/events/:causeId', events.getByCause);
+    app.get('/api/survey/:causeId', survey.getByCause);
+    app.get('/api/questions/:surveyId', survey.getQuestionBySurvey);
 }

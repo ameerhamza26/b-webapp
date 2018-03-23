@@ -73,3 +73,15 @@ exports.get =function(req,res) {
 
     });
 }
+
+exports.getByCause = function(req,res) {
+    var message = '';
+    var id = req.params.causeId;
+    var sql = "SELECT * FROM `events` WHERE `CauseId`='" + id + "'";
+    db.query(sql, function (err, result) {
+        if (result.length <= 0)
+            message = "Cause not found!";
+      
+        res.send({ data: result, message: message });
+    });
+}

@@ -114,3 +114,28 @@ exports.edit = function(req, res){
       res.render('editsurvey.ejs',{data:result, message: message});
    });
 };
+
+
+exports.getByCause = function(req,res) {
+    var message = '';
+    var id = req.params.causeId;
+    var sql = "SELECT * FROM `survey` WHERE `CauseId`='" + id + "'";
+    db.query(sql, function (err, result) {
+        if (result.length <= 0)
+            message = "Cause not found!";
+      
+        res.send({ data: result, message: message });
+    });
+}
+
+exports.getQuestionBySurvey = function(req,res) {
+    var message = '';
+    var id = req.params.surveyId;
+    var sql = "SELECT * FROM `surveyquestions` WHERE `SurveyId`='" + id + "'";
+    db.query(sql, function (err, result) {
+        if (result.length <= 0)
+            message = "Cause not found!";
+      
+        res.send({ data: result, message: message });
+    });
+}
