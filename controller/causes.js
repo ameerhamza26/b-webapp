@@ -62,6 +62,18 @@ exports.list = function(req,res){
 
 }
 
+exports.getDonationUrlsByCause = function(req,res) {
+    var message = '';
+    var id = req.params.causeId;
+    var sql = "SELECT * FROM `donationurls` WHERE `CauseId`='" + id + "'";
+    db.query(sql, function (err, result) {
+        if (result.length <= 0)
+            message = "donationurls not found!";
+      
+        res.send({ data: result, message: message });
+    });
+}
+
 exports.search = function(req,res) {
     var message = '';
     var title = req.query.title;

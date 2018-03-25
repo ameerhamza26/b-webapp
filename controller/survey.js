@@ -139,3 +139,14 @@ exports.getQuestionBySurvey = function(req,res) {
         res.send({ data: result, message: message });
     });
 }
+
+exports.saveUserResponse = function(req,res) {
+    var post = req.body;
+    var values = post;
+    
+    var sql = "INSERT INTO `userresponsesurvey`(`SurveyId`,`Question`, `Answer`) VALUES ?";
+    
+    var query = db.query(sql, [values], function (err, result) {
+        res.send({id :result.insertId});
+    });
+}

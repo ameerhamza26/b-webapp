@@ -59,3 +59,27 @@ exports.edit = function (req, res) {
         res.render('resourceedit.ejs', { data: result, message: message });
     });
 };
+
+exports.getByCause = function(req,res) {
+    var message = '';
+    var id = req.params.causeId;
+    var sql = "SELECT * FROM `resources` WHERE `CauseId`='" + id + "'";
+    db.query(sql, function (err, result) {
+        if (result.length <= 0)
+            message = "resources not found!";
+      
+        res.send({ data: result, message: message });
+    });
+}
+
+exports.getResourceUrls = function(req,res) {
+    var message = '';
+    var id = req.params.resourceId;
+    var sql = "SELECT * FROM `resourceurls` WHERE `ResourceId`='" + id + "'";
+    db.query(sql, function (err, result) {
+        if (result.length <= 0)
+            message = "resourceurls not found!";
+      
+        res.send({ data: result, message: message });
+    });
+} 

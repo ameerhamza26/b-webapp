@@ -40,3 +40,16 @@ exports.edit = function (req, res) {
         res.render('talkingpoints.ejs', { data: result, message: message });
     });
 };
+
+
+exports.getByCause = function(req,res) {
+    var message = '';
+    var id = req.params.causeId;
+    var sql = "SELECT * FROM `talkingpoints` WHERE `CauseId`='" + id + "'";
+    db.query(sql, function (err, result) {
+        if (result.length <= 0)
+            message = "talkingpoints not found!";
+      
+        res.send({ data: result, message: message });
+    });
+}
