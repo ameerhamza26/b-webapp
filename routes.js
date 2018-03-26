@@ -29,10 +29,11 @@ module.exports = function (app) {
     app.get('/events', events.get);
     app.get('/create/event', events.create);
 
+    app.get('/talkingpoints', talkingPoints.list);
     app.get('/create/talkingpoints', talkingPoints.create);
     app.post('/create/talkingpoints', talkingPoints.create);
-
     app.get('/talkingpoints/edit/:id', talkingPoints.edit);
+    
     app.post('/create/event', events.create);
 
     app.get('/events/edit/:id', events.edit);
