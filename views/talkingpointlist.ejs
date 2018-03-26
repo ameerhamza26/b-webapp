@@ -1,0 +1,32 @@
+<% include partials/head %>
+<body>
+    <% include partials/header %>
+    
+    <div class="container">
+        <div class="py-5 text-center">
+            <p class="lead mt-5">Welcome to Burma cause management</p>
+        </div>
+
+        <% include partials/sidemenu %>
+
+        <div class="col-md-8 order-md-2">
+            <h4 class="mb-3">Talking points</h4>
+            <a href="/create/talkingpoints" class="btn btn-primary btn-lg" type="button">Add new</a>
+            <div class="list-group">
+                <% for(var i=0; i<data.length; i++) { %>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading"><%=data[i].Title%></h4>
+                        
+                        <p class="list-group-item-text"><%=data[i].Description%></p>
+                    </a>
+                <% } %>
+            </div>
+        </div>
+
+    </div>
+
+    <% include partials/footer %>
+
+</body>
+
+

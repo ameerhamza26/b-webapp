@@ -10,8 +10,8 @@
         <% include partials/sidemenu %>
 
         <div class="col-md-8 order-md-2">
-            <h4 class="mb-3">Add talking points</h4>
-            <form class="form-horizontal" role="form" method="post" action="/create/talkingpoints">
+            <h4 class="mb-3">talking point</h4>
+            <form class="form-horizontal" role="form" method="post" action="/update/talkingpoints">
                 <% if (message.length > 0) { %>
                     <div class="alert alert-success col-sm-12">
                         <%= message %>
@@ -24,7 +24,7 @@
                         <div class="form-group">
                             <label for="title" class="col-md-3 control-label">Title</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="title" placeholder="Title">
+                                <input type="text" class="form-control" name="title"  value="<%= data[i].Title %>" placeholder="Title">
                             </div>
                         </div>
                         <div class="form-group">

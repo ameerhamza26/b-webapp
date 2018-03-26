@@ -1,3 +1,4 @@
+var authentication =require('../helpers/authentication');
 
 exports.create = function (req, res) {
     message = '';
@@ -37,10 +38,9 @@ exports.edit = function (req, res) {
         if (result.length <= 0)
             message = "Cause not found!";
       
-        res.render('talkingpoints.ejs', { data: result, message: message });
+        res.render('talkingpointedit.ejs', { data: result, message: message });
     });
 };
-
 
 exports.getByCause = function(req,res) {
     var message = '';
@@ -52,4 +52,22 @@ exports.getByCause = function(req,res) {
       
         res.send({ data: result, message: message });
     });
+}
+
+exports.list = function(req,res){
+    if (!authentication.authenticate(req)){
+        res.redirect("/login");
+        return;
+    }
+
+    var sql = "Select * From talkingpoints";
+    db.query(sql, function(err, result){
+        if(result.length >= 0){
+            res.render('talkingpointlist',{data: result});
+        }else{
+            res.render('talkingpointlist',{data:[]})
+        }
+
+    });
+
 }
