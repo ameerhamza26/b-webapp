@@ -6,6 +6,7 @@ var talkingPoints = require('./controller/talkingpoints');
 var localmedia = require('./controller/media');
 var country = require('./controller/country');
 var survey = require('./controller/survey');
+var notification = require('./controller/notification');
 // development only
 
 module.exports = function (app) {
@@ -76,5 +77,7 @@ module.exports = function (app) {
     app.get('/api/resources/:causeId', resources.getByCause);
     app.get('/api/resourceurls/:resourceId', resources.getResourceUrls);
     app.get('/api/donationurls/:causeId', causes.getDonationUrlsByCause);
+    app.post('/api/devicetoken',  notification.addDeviceToken);
+    app.post('/api/send/notification', notification.sendPushNotification);
 
 }
