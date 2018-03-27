@@ -188,3 +188,6 @@ CREATE TABLE `devicetokens` (
   `tokens` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+alter table devicetokens
+add unique(tokens);
