@@ -180,3 +180,11 @@ CREATE TABLE `localmedia` (
   `CountryId` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+DROP TABLE IF EXISTS `devicetokens`;
+CREATE TABLE `devicetokens` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `tokens` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
