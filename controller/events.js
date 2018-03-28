@@ -1,4 +1,7 @@
 var authentication =require('../helpers/authentication');
+var moment = require('moment');
+var mysql = require('promise-mysql');
+
 
 exports.create = function (req, res) {
     message = '';
@@ -34,12 +37,32 @@ exports.edit = function (req, res) {
     var message = '';
     var id = req.params.id;
     var sql = "SELECT * FROM `events` WHERE `id`='" + id + "'";
-    db.query(sql, function (err, result) {
-        if (result.length <= 0)
-            message = "Cause not found!";
-      
-        res.render('eventedit.ejs', { data: result, message: message });
-    });
+
+    var final_obj = {};
+    var connection;
+    mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'burmacausemanagement'
+    }).then(function(conn){
+        connection = conn;
+        var result = connection.query(sql);
+   
+        return result;
+    }).then(function(rows){
+        final_obj.data = rows;
+        sql = "SELECT `ID`, `Title` FROM `Causes`";
+        result = connection.query(sql);
+        // Logs out a list of hobbits
+        connection.end();
+        return result;
+    }).then(function(rows) {
+        final_obj.causes = rows;
+        final_obj.moment = moment;
+        final_obj.message = message;
+        res.render('eventedit.ejs', final_obj);
+    })
 };
 
 
