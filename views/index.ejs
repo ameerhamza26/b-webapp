@@ -14,7 +14,7 @@
             <a href="/create/cause" class="btn btn-primary btn-lg" type="button">Add new</a>
             <div class="list-group">
                 <% for(var i=0; i<data.length; i++) { %>
-                    <a href="#" class="list-group-item">
+                    <a href="/causes/edit/<%=data[i].ID%>" class="list-group-item">
                         <h4 class="list-group-item-heading"><%=data[i].Title%></h4>
                         
                         <p class="list-group-item-text"><%=data[i].Description%></p>

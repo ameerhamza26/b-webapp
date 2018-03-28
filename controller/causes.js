@@ -37,15 +37,70 @@ exports.create = function(req,res) {
 
 
 exports.edit = function(req, res){
-	var message = '';
-	var id = req.params.id;
-    var sql="SELECT * FROM `causes` WHERE `id`='"+id+"'"; 
-    db.query(sql, function(err, result){
-	  if(result.length <= 0)
-	  message = "Cause not found!";
-	  
-      res.render('causeedit.ejs',{data:result, message: message});
-   });
+    var message = '';
+    var id = req.params.id;
+    if(req.method == "POST"){
+        var sql = "";
+        var post  = req.body;
+        var title= post.title;
+        var description= post.description;
+        if (!req.files) {
+            console.log("in if")
+            sql = "update `cause` set Title = '"+ title+"' , description = '" + description+ "' where id = " + id;
+           // var sql = "INSERT INTO `causes`(`Title`,`Description`,`Image`) VALUES ('" + title + "','" + description + "','" + img_name + "')";
+            
+            var query = db.query(sql, function(err, result) {
+                   return res.redirect('/home');
+            });
+        }
+                 // return res.status(400).send('No files were uploaded.');
+  
+          var file = req.files.uploaded_image;
+          if (typeof file == "undefined") {
+            console.log("in if")
+            sql = "update `causes` set Title = '"+ title+"' , description = '" + description+ "' where id = " + id;
+           // var sql = "INSERT INTO `causes`(`Title`,`Description`,`Image`) VALUES ('" + title + "','" + description + "','" + img_name + "')";
+            
+            var query = db.query(sql, function(err, result) {
+                console.log("Err",err);
+
+                    res.redirect('/home');
+            });
+          }
+          else {
+            var img_name=file.name;
+            
+          
+                       if(file.mimetype == "image/jpeg" ||file.mimetype == "image/png"||file.mimetype == "image/gif" ){
+                                             
+                          file.mv('public/images/upload_images/'+file.name, function(err) {
+                                         
+                              if (err)
+            
+                                return res.status(500).send(err);
+                                      
+                                      sql = "update `causes` set Title = '"+ title+"' , description = '" + description+ "' , image = '"+ img_name + "' where id = " + id;
+            
+                                        var query = db.query(sql, function(err, result) {
+                                                res.redirect('/home');
+                                        });
+                                   });
+                      } else {
+                        message = "This format is not allowed , please upload file with '.png','.gif','.jpg'";
+                        res.render('causeedit.ejs',{message: message});
+                      }
+          }
+
+    }
+    else {
+        var sql="SELECT * FROM `causes` WHERE `id`='"+id+"'"; 
+        db.query(sql, function(err, result){
+          if(result.length <= 0)
+          message = "Cause not found!";
+          
+          res.render('causeedit.ejs',{data:result, message: message});
+       });
+    }
 };
 
 

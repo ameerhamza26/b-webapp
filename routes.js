@@ -23,6 +23,8 @@ module.exports = function (app) {
     app.post('/login', index.login)
 
     app.get('/causes/edit/:id', causes.edit);
+    app.post('/causes/edit/:id', causes.edit);
+
     app.post('/create/cause', causes.create);
     app.get('/create/cause', causes.create);
     app.get('/cause/search', causes.search);
