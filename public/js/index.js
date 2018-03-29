@@ -30,6 +30,21 @@ $(document).ready(function(){
         
     });
 
+    $('#resources-search').on('input', function() {
+        
+            $.get("/api/cause/search/resources?title=" + $('#resources-search').val(), function(data, status){
+                var html="";
+                for (var i = 0; i<data.data.length;i++) {
+                    html+= '<a href="/resources/edit/'+data.data[i].ID+'" class="list-group-item">'+
+                    '<h4 class="list-group-item-heading">'+ data.data[i].Title + '</h4>'+
+                    '<p class="list-group-item-text">'+ data.data[i].Description+'</p>' + 
+                    '</a>'
+                }
+                $('#resources-list-group').html(html);
+            });
+        
+    });
+
     $('#localmedia-search').on('input', function() {
         
         $.get("/api/localmedia/search?text=" + $('#localmedia-search').val(), function(data, status){

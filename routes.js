@@ -50,8 +50,8 @@ module.exports = function (app) {
     app.get('/localmedia/edit/:id', localmedia.edit);
 
 
-    app.get('/create/resource', resources.create);
-    app.post('/create/resource', resources.create);
+    app.get('/create/resources', resources.create);
+    app.post('/create/resources', resources.create);
     app.get('/resources/edit/:id', resources.edit);
 
 
@@ -65,7 +65,11 @@ module.exports = function (app) {
 
     app.get('/api/survey/search', survey.search);
 
+
+    app.get('/resources' , resources.list)
+
     app.get('/api/cause/search/talkinpoint', talkingPoints.search);
+    app.get('/api/cause/search/resources', resources.search);
     /*Mobile Web  */
     app.get('/api/causes/list', causes.list);
     app.get('/api/causes/all' , causes.getAll);

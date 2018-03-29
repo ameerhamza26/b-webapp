@@ -12,9 +12,11 @@
         <div class="col-md-8 order-md-2">
             <h4 class="mb-3">Resources</h4>
             <a href="/create/resources" class="btn btn-primary btn-lg" type="button">Add new</a>
-            <div class="list-group">
+
+            <input id="resources-search" class="form-control mr-sm-2" type="search" placeholder="Search by causes" aria-label="Search">
+            <div id="resources-list-group" class="list-group">
                 <% for(var i=0; i<data.length; i++) { %>
-                    <a href="#" class="list-group-item">
+                    <a href="/resources/edit/<%=data[i].ID%>" class="list-group-item">
                         <h4 class="list-group-item-heading"><%=data[i].Title%></h4>
                         
                         <p class="list-group-item-text"><%=data[i].Description%></p>
