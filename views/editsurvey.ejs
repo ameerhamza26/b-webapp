@@ -10,7 +10,7 @@
         <% include partials/sidemenu %>
 
         <div class="col-md-8 order-md-2">
-            <h4 class="mb-3">Create Survey</h4>
+            <h4 class="mb-3">Edit Survey</h4>
             <div class="form-horizontal" >
                 <% if (message.length > 0) { %>
                     <div class="alert alert-success col-sm-12">
@@ -27,14 +27,20 @@
                                 <input id="survey-title-text" type="text" class="form-control" name="title" placeholder="Title" value="<%=data[0].Title%>">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label for="title" class="col-md-3 control-label">Select cause</label>
                             <div class="col-md-9">
-                                <select class="form-control" name="causeId" id="survey-cause-id" >
+                                <select class="form-control" name="cause" id="drpdwn" value="<%=data[0].CauseId%>">
                                     <option value="">Select Cause</option>
-                                    <%for(var i=0;i< data.length;i++){ %>
-                                        <option value='<%= data[i].CauseId %>' />
-                                        <%=data[i].Title%>
+                                    <%for(var i=0;i< causes.length;i++){ %>
+                                        <%if (causes[i].ID == data[0].CauseId) { %>
+                                            <option value='<%= causes[i].ID %>' selected />
+                                            <% } else {  %>
+                                                
+                                                <option value='<%= causes[i].ID %>' />
+                                            <% } %>
+                                        <%=causes[i].Title%>
                                             </option>
                                             <% }%>
 
@@ -43,7 +49,6 @@
                                 </select>
                             </div>
                         </div>
-
 
 
                         <div class="form-group">

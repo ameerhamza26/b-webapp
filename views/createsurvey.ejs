@@ -31,7 +31,7 @@
                             <label for="title" class="col-md-3 control-label">Select cause</label>
                             <div class="col-md-9">
                                 <select class="form-control" name="causeId" id="survey-cause-id">
-                                    <option value="">Select Cause</option>
+                                    
                                     <%for(var i=0;i< data.length;i++){ %>
                                         <option value='<%= data[i].ID %>' />
                                         <%=data[i].Title%>
@@ -54,8 +54,8 @@
                             </div>
                         </div>
                     </div>
-                    <div id="survey-question-div" style="display: none;">
-                        <% include partials/surveyquestions %>
+                    <div id="survey-question-div">
+                        
                     </div>
 
         </div>

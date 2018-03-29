@@ -53,6 +53,7 @@ module.exports = function (app) {
     app.get('/create/resources', resources.create);
     app.post('/create/resources', resources.create);
     app.get('/resources/edit/:id', resources.edit);
+    app.post('/resources/edit/:id', resources.edit);
 
 
     app.get('/survey', survey.get);

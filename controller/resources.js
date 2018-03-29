@@ -50,12 +50,12 @@ exports.create = function (req, res) {
             
             return result;
         }).then(function(row) {
-
-                res.redirect('/resources');
+            connection.end();
+            res.redirect('/resources');
         }).catch(function(err) {
             console.log(err);
            // done(err);
-        });;
+        });
         // var query = db.query(sql, function (err, result) {
         //     res.redirect('/resources');
         // });
@@ -96,13 +96,133 @@ exports.create = function (req, res) {
 exports.edit = function (req, res) {
     var message = '';
     var id = req.params.id;
-    var sql = "SELECT * FROM `resources` WHERE `id`='" + id + "'";
-    db.query(sql, function (err, result) {
-        if (result.length <= 0)
-            message = "Resources not found!";
+    var connection;
 
-        res.render('resourceedit.ejs', { data: result, message: message });
-    });
+    if (req.method == 'POST' ) {
+        var resourceUrls;
+        var post = req.body;
+        var cause_id = post.cause;
+        var title = post.title;
+        var description = post.description;
+        var sql = "Update `resources` set CauseId = " + cause_id + " , \
+        Title =  '" + title +"' , \
+        Description = '" + description + "' where ID = " + id; 
+        mysql.createConnection(config.dbConfig).then(function(conn){
+            connection = conn;
+            var result = connection.query(sql);
+            return result;
+        }).then(function(rows) {
+            sql = "Select * from `resourceurls` where ResourceId = " + id;
+            var result = connection.query(sql);
+            return result;
+        }).then(function(rows) {
+            resourceUrls = rows;
+            if (!post.url1) {
+                if (typeof resourceUrls[0] == "undefined") {
+                    return ;
+                }
+                else {
+                    sql = "delete from `resourceurls` where id = " + resourceUrls[0].ID;
+                    var result = connection.query(sql);
+                    return result;
+                } 
+
+            } else {
+                if (typeof resourceUrls[0] == "undefined") {
+                    sql = "Insert into `resourceurls` (`ResourceId`, `Url`) values (" + id + ",'" + post.url1 +"' )";
+                }
+                else {
+                    sql = "Update `resourceurls` set ResourceId = " + id + " , \
+                    Url = '" + post.url1 + "' where id = " + resourceUrls[0].ID;
+                }
+                var result = connection.query(sql);
+                return result;
+            }
+        }).then(function(rows) {
+            if (!post.url2) {
+                if (typeof resourceUrls[1] == "undefined") {
+                    return ;
+                }
+                else {
+                    sql = "delete from `resourceurls` where id = " + resourceUrls[1].ID;
+                    var result = connection.query(sql);
+                    return result;
+                } 
+
+            } else {
+                if (typeof resourceUrls[1] == "undefined") {
+                    sql = "Insert into `resourceurls` (`ResourceId`, `Url`) values (" + id + ",'" + post.url2 +"' )";
+                }
+                else {
+                    sql = "Update `resourceurls` set ResourceId = " + id + " , \
+                    Url = '" + post.url2 + "' where id = " + resourceUrls[1].ID;
+                }
+                var result = connection.query(sql);
+                return result;
+            }
+        }).then(function(rows) {
+            if (!post.url3) {
+                if (typeof resourceUrls[2] == "undefined") {
+                    return ;
+                }
+                else {
+                    sql = "delete from `resourceurls` where id = " + resourceUrls[2].ID;
+                    var result = connection.query(sql);
+                    return result;
+                } 
+
+            } else {
+                if (typeof resourceUrls[2] == "undefined") {
+                    sql = "Insert into `resourceurls` (`ResourceId`, `Url`) values (" + id + ",'" + post.url3 +"' )";
+                }
+                else {
+                    sql = "Update `resourceurls` set ResourceId = " + id + " , \
+                    Url = '" + post.url3 + "' where id = " + resourceUrls[2].ID;
+                }
+                var result = connection.query(sql);
+                return result;
+            }
+        }).then(function(row) {
+            connection.end();
+            res.redirect('/resources');
+        }).catch(function(err) {
+            console.log(err);
+           // done(err);
+        });
+    }
+    else {
+        var sql = "SELECT * FROM `resources` WHERE `id`='" + id + "'";
+        
+        var final_obj = {};
+
+        var resource ;
+        mysql.createConnection(config.dbConfig).then(function(conn){
+            connection = conn;
+            var result = connection.query(sql);
+       
+            return result;
+        }).then(function(rows){
+            final_obj.data = rows;
+            
+            sql = "SELECT `ID`, `Title` FROM `Causes`";
+            result = connection.query(sql);
+            return result;
+        }).then(function(rows){
+            final_obj.causes = rows;
+            if (!final_obj.data[0]) {
+                return;
+            }
+            sql = "SELECT * FROM `resourceurls` where ResourceId = " + final_obj.data[0].ID ;
+            result = connection.query(sql);
+            // Logs out a list of hobbits
+            connection.end();
+            return result;
+        }).then(function(rows) {
+            final_obj.url = rows;
+            final_obj.message = message;
+            res.render('resourceedit.ejs', final_obj);
+        })
+    }
 };
 
 exports.getByCause = function(req,res) {

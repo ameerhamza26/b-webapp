@@ -245,6 +245,23 @@ $(document).ready(function(){
     // alert( this.value );
   })
 
+  var html = '<div class="form-group"> \
+  <label for="title" class="col-md-3 control-label">Select question type</label> \
+  <div class="col-md-9"> \
+      <select class="form-control" name="causeId" id="survey-quest-number"> \
+              <option value="TEXT"> Description </option> \
+              <option value="MCQ">Choose from option</option> \
+      </select> \
+  </div> \
+</div> \
+<div id="questions-div-1" class="form-group"  style="display: none;"> \
+    <label for="title" class="col-md-3 control-label">Add question</label> \
+    <div class="col-md-9"> \
+        <input id="survey-question-text-1" type="text" class="form-control" name="title" placeholder="Add question"> \
+    </div> \
+</div> ';
+
+
     $('#survey-submit').click(function() {
         $.post('/create/survey', 
         { title: $('#survey-title-text').val(),
@@ -253,13 +270,33 @@ $(document).ready(function(){
             console.log("data",data);
             surveyId = data.surveyId;
             questionCount++;
-            $('#survey-question-div').show();
+            html = html.replace(/number/gi,"1");
+            $('#survey-question-div').append(html);
         })
     })
 
 
     var url = window.location.href;
     if (url.indexOf('/survey/edit') != -1) {
-        
+        var id = url.split('/')[url.split('/').length -1];
+        $.get('/api/questions/'+id, function(data,status) {
+            console.log(data);
+          
+            setTimeout(function() {
+                $('#survey-question-div').show();
+                if (data.length > 0) {
+                    for (var i=0; i< data.length; i++) {
+                        $('#options-div-'+(i+1)).show();
+                        $('#main-question-div-'+(i+1)).show();
+                        $('#questions-div-'+(i+1)).show();
+                    }
+                }
+            },5000)
+
+        });
     }
+
+    $('#add-question').click(function() {
+
+    })
 });

@@ -96,6 +96,10 @@ io.on('connection', (socket) => {
 
   socket.on('hash', function(hash){
     var streamHash = hash.hash;
+    T.get('search/tweets', { q: 'PSL3', count: 100 }, function(err, data, response) {
+      io.emit('latest-tweets', data);
+    })
+
     var stream = T.stream('statuses/filter', { track: 'PSL3' });
 
     stream.on('tweet', function (tweet) {

@@ -1,4 +1,6 @@
 var authentication =require('../helpers/authentication');
+var mysql = require('promise-mysql');
+var config = require('../config');
 
 exports.get =function(req,res) {
 
@@ -100,19 +102,45 @@ exports.search = function(req,res) {
 
 exports.edit = function(req, res){
 	var message = '';
-	var id = req.params.id;
-    var sql="select survey.CauseId, survey.Title, surveyquestions.* \
-    from survey \
-    LEFT JOIN \
-    surveyquestions \
-    on survey.ID = surveyquestions.SurveyId \
-    where survey.ID = " + id; 
-    db.query(sql, function(err, result){
-	  if(result.length <= 0)
-	  message = "surveyquestions not found!";
-	  
-      res.render('editsurvey.ejs',{data:result, message: message});
-   });
+    var id = req.params.id;
+    var connection;
+    if (req.method == 'POST') {
+
+    }
+    else {
+        var sql = "SELECT * FROM `survey` WHERE `id`='" + id + "'";
+        
+        var final_obj = {};
+
+        var survey ;
+        mysql.createConnection(config.dbConfig).then(function(conn){
+            connection = conn;
+            var result = connection.query(sql);
+       
+            return result;
+        }).then(function(rows){
+            final_obj.data = rows;
+            
+            sql = "SELECT `ID`, `Title` FROM `Causes`";
+            result = connection.query(sql);
+            return result;
+        }).then(function(rows){
+            final_obj.causes = rows;
+            if (!final_obj.data[0]) {
+                return;
+            }
+            sql = "SELECT * FROM `surveyquestions` where SurveyId = " + final_obj.data[0].ID ;
+            result = connection.query(sql);
+            // Logs out a list of hobbits
+            connection.end();
+            return result;
+        }).then(function(rows) {
+            final_obj.questions = rows;
+            final_obj.message = message;
+            res.render('editsurvey.ejs', final_obj);
+        })
+
+    }
 };
 
 

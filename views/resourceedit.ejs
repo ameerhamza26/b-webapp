@@ -10,8 +10,8 @@
         <% include partials/sidemenu %>
 
         <div class="col-md-8 order-md-2">
-            <h4 class="mb-3">Add resources</h4>
-            <form class="form-horizontal" role="form" method="post" action="/resources/edit/1">
+            <h4 class="mb-3">Edit resources</h4>
+            <form class="form-horizontal" role="form" method="post" action="/resources/edit/<%=data[0].ID%>">
                 <% if (message.length > 0) { %>
                     <div class="alert alert-success col-sm-12">
                         <%= message %>
@@ -35,9 +35,14 @@
                         <div class="col-md-9">
                             <select class="form-control" name="cause" id="drpdwn" value="<%=data[0].CauseId%>">
                                 <option value="">Select Cause</option>
-                                <%for(var i=0;i< data.length;i++){ %>
-                                    <option value='<%= data[i].ID %>' />
-                                    <%=data[i].Title%>
+                                <%for(var i=0;i< causes.length;i++){ %>
+                                    <%if (causes[i].ID == data[0].CauseId) { %>
+                                        <option value='<%= causes[i].ID %>' selected />
+                                        <% } else {  %>
+                                            
+                                             <option value='<%= causes[i].ID %>' />
+                                        <% } %>
+                                    <%=causes[i].Title%>
                                         </option>
                                         <% }%>
 
@@ -56,15 +61,37 @@
 
                     <div class="form-group">
                         <label for="last_name" class="col-md-3 control-label">Add reference urls</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="url1" placeholder="Reference url 1">
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="url2" placeholder="Reference url 2">
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="url3" placeholder="Reference url 3">
-                        </div>
+                        <%if (typeof url[0] != 'undefined') { %>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="url1" placeholder="Reference url 1" value="<%=url[0].Url%>">
+                            </div>
+                        
+                        <% } else {  %>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="url1" placeholder="Reference url 1" >
+                            </div>
+                        <% }%>
+                        <%if (typeof url[1] != 'undefined') { %>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="url2" placeholder="Reference url 2" value="<%=url[1].Url%>">
+                            </div>
+                        
+                        <% } else {  %>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="url2" placeholder="Reference url 2" >
+                            </div>
+                        <% }%>
+                        <%if (typeof url[2] != 'undefined') { %>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="url3" placeholder="Reference url 3" value="<%=url[2].Url%>">
+                            </div>
+                        
+                        <% } else {  %>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="url3" placeholder="Reference url 3" >
+                            </div>
+                        <% }%>
+                        
                     </div>   
 
                     <div class="form-group">
