@@ -11,6 +11,7 @@ var express = require('express')
   morgan  = require('morgan'),
   bodyParser=require("body-parser");
   var Twit = require('twit');
+  var config = require('./config');
 
   //var Sequelize = require('sequelize');
   //var sequelize = new Sequelize('burmacausemanagement', 'root', '', {
@@ -29,16 +30,11 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 60000*5 }
 }))
 
   
- var connection = mysql.createConnection({
-   host     : 'localhost',
-   user     : 'root',
-   password : '',
-   database : 'burmacausemanagement'
- });
+ var connection = mysql.createConnection(config.dbConfig);
 
  connection.connect();
 

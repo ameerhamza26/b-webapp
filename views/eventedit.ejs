@@ -10,8 +10,8 @@
         <% include partials/sidemenu %>
 
         <div class="col-md-8 order-md-2">
-            <h4 class="mb-3">Create Event</h4>
-            <form class="form-horizontal" role="form" method="post" action="/create/event">
+            <h4 class="mb-3">Edit Event</h4>
+            <form class="form-horizontal" role="form" method="post" action="/events/edit/<%=data[0].ID%>">
                 <% if (message.length > 0) { %>
                     <div class="alert alert-success col-sm-12">
                         <%= message %>
@@ -30,10 +30,10 @@
                         <div class="form-group">
                             <label for="title" class="col-md-3 control-label">Select cause</label>
                             <div class="col-md-9">
-                                <select class="form-control" name="cause" id="drpdwn" value="<%= data[0].ID %>">
+                                <select class="form-control" name="cause" id="drpdwn" value="<%= data[0].CauseId %>">
                                     <option value="">Select Cause</option>
                                     <%for(var i=0;i< causes.length;i++){ %>
-                                        <%if (causes[i].ID == data[0].ID) { %>
+                                        <%if (causes[i].ID == data[0].CauseId) { %>
                                             <option value='<%= causes[i].ID %>' selected />
                                             <% } else {  %>
                                                 
@@ -69,7 +69,7 @@
                         <div class="form-group">
                             <label for="notes" class="col-md-3 control-label">Notes</label>
                             <div class="col-md-9">
-                                <textarea class="form-control" name="notes" placeholder="Notes" value="<%=data[0].Notes%>"></textarea>
+                                <textarea class="form-control" name="notes" placeholder="Notes"><%=data[0].Notes%></textarea>
                             </div>
                         </div>
 

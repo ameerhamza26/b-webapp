@@ -36,10 +36,12 @@ module.exports = function (app) {
     app.get('/create/talkingpoints', talkingPoints.create);
     app.post('/create/talkingpoints', talkingPoints.create);
     app.get('/talkingpoints/edit/:id', talkingPoints.edit);
+    app.post('/talkingpoints/edit/:id', talkingPoints.edit);
     
     app.post('/create/event', events.create);
 
     app.get('/events/edit/:id', events.edit);
+    app.post('/events/edit/:id', events.edit);
 
     app.get('/localmedia',localmedia.get);
 
@@ -63,6 +65,7 @@ module.exports = function (app) {
 
     app.get('/api/survey/search', survey.search);
 
+    app.get('/api/cause/search/talkinpoint', talkingPoints.search);
     /*Mobile Web  */
     app.get('/api/causes/list', causes.list);
     app.get('/api/causes/all' , causes.getAll);
