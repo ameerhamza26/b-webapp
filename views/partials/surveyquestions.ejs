@@ -1,60 +1,61 @@
-<div class="form-group">
-    <label for="title" class="col-md-3 control-label">Select question type</label>
-    <div class="col-md-9">
-        <select class="form-control" name="causeId" id="survey-quest-1">
-            <option value=""></option>
-                <option value='TEXT' />
-                Description
-            </option>
-            <option value="MCQ">Choose from option</option>
-        </select>
-    </div>
-</div>
-<div id="questions-div-1" class="form-group"  style="display: none;">
-    <label for="title" class="col-md-3 control-label">Add question</label>
-    <div class="col-md-9">
-        <input id="survey-question-text-1" type="text" class="form-control" name="title" placeholder="Add question">
-    </div>
-</div>
-<div id="options-div-1" style="display: none;">
-    <div class="form-group" >
-        <label for="title" class="col-md-3 control-label">Add option1</label>
-        <div class="col-md-9">
-            <input id="survey-question-1-option-1" type="text" class="form-control" name="title" placeholder="Add option1">
-        </div>
-    </div>
+<div>
     <div class="form-group">
-        <label for="title" class="col-md-3 control-label">Add option2</label>
+        <label for="title" class="col-md-3 control-label">Select question type</label>
         <div class="col-md-9">
-            <input id="survey-question-1-option-2" type="text" class="form-control" name="title" placeholder="Add option2">
+            <select class="form-control" name="causeId" id="survey-quest-1">
+                <option value=""></option>
+                    <option value='TEXT' />
+                    Description
+                </option>
+                <option value="MCQ">Choose from option</option>
+            </select>
         </div>
     </div>
-    <div class="form-group">
-        <label for="title" class="col-md-3 control-label">Add option3</label>
+    <div id="questions-div-1" class="form-group"  style="display: none;">
+        <label for="title" class="col-md-3 control-label">Add question</label>
         <div class="col-md-9">
-            <input id="survey-question-1-option-3" type="text" class="form-control" name="title" placeholder="Add option3">
+            <input id="survey-question-text-1" type="text" class="form-control" name="title" placeholder="Add question">
         </div>
     </div>
-    <div class="form-group">
-        <label for="title" class="col-md-3 control-label">Add option4</label>
-        <div class="col-md-9">
-            <input id="survey-question-1-option-4" type="text" class="form-control" name="title" placeholder="Add option4">
+    <div id="options-div-1" style="display: none;">
+        <div class="form-group" >
+            <label for="title" class="col-md-3 control-label">Add option1</label>
+            <div class="col-md-9">
+                <input id="survey-question-1-option-1" type="text" class="form-control" name="title" placeholder="Add option1">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="title" class="col-md-3 control-label">Add option2</label>
+            <div class="col-md-9">
+                <input id="survey-question-1-option-2" type="text" class="form-control" name="title" placeholder="Add option2">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="title" class="col-md-3 control-label">Add option3</label>
+            <div class="col-md-9">
+                <input id="survey-question-1-option-3" type="text" class="form-control" name="title" placeholder="Add option3">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="title" class="col-md-3 control-label">Add option4</label>
+            <div class="col-md-9">
+                <input id="survey-question-1-option-4" type="text" class="form-control" name="title" placeholder="Add option4">
+            </div>
+        </div>
+        
+    </div>
+    <div class="form-group" id="question-button-div-1">
+        <!-- Button -->
+        <div class="col-md-offset-3 col-md-9">
+            <button id="survey-question-submit-1" type="submit" class="btn btn-info">
+                <i class="icon-hand-right"></i> &nbsp Add more question</button>
+        </div>
+        <div class="col-md-offset-3 col-md-9">
+            <button id="survey-final-submit" type="submit" class="btn btn-info survey-final-submit">
+                <i class="icon-hand-right"></i> &nbsp Submit</button>
         </div>
     </div>
-    
 </div>
-<div class="form-group" id="question-button-div-1">
-    <!-- Button -->
-    <div class="col-md-offset-3 col-md-9">
-        <button id="survey-question-submit-1" type="submit" class="btn btn-info">
-            <i class="icon-hand-right"></i> &nbsp Add more question</button>
-    </div>
-    <div class="col-md-offset-3 col-md-9">
-        <button id="survey-final-submit" type="submit" class="btn btn-info survey-final-submit">
-            <i class="icon-hand-right"></i> &nbsp Submit</button>
-    </div>
-</div>
-
 
 <div id="main-question-div-2" style="display:none;">
 <div  class="form-group" >
