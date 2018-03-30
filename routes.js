@@ -63,6 +63,8 @@ module.exports = function (app) {
     app.post('/create/survey/:id/questions', survey.createQuestions);
 
     app.get('/survey/edit/:id', survey.edit );
+    app.post('/survey/edit/:id', survey.edit );
+    app.post('/survey/edit/questions/:surveyId', survey.editQuestion );
 
     app.get('/api/survey/search', survey.search);
 

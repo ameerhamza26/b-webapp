@@ -1,6 +1,8 @@
 var authentication =require('../helpers/authentication');
 var mysql = require('promise-mysql');
 var config = require('../config');
+var Promise = require('bluebird');
+
 
 exports.get =function(req,res) {
 
@@ -33,21 +35,33 @@ exports.get =function(req,res) {
 };
 
 exports.createQuestions = function(req,res) {
-    var post = req.body;
+    // var post = req.body;
 
-    var questionType = post.questionType;
-    var surveyId = req.params.id;
-        var question = post.question;
-        var option1 = post.option1;
-        var option2 = post.option2;
-        var option3 = post.option3;
-        var option4 = post.option4;
-        var sql = "Insert into `surveyquestions` (`SurveyId`, `Question`, `AnswerType`, `Option1`, `Option2`, `Option3`, `Option4`) values ( \
-        "+ surveyId +", '"+ question+"', '"+ questionType+  "', '" +option1  +"', '"+ option2+"', '"+ option3+"', '"+option4+"' )";
+    // var questionType = post.questionType;
+    // var surveyId = req.params.id;
+    //     var question = post.question;
+    //     var option1 = post.option1;
+    //     var option2 = post.option2;
+    //     var option3 = post.option3;
+    //     var option4 = post.option4;
+    //     var sql = "Insert into `surveyquestions` (`SurveyId`, `Question`, `AnswerType`, `Option1`, `Option2`, `Option3`, `Option4`) values ( \
+    //     "+ surveyId +", '"+ question+"', '"+ questionType+  "', '" +option1  +"', '"+ option2+"', '"+ option3+"', '"+option4+"' )";
     
-        var query = db.query(sql, function (err, result) {
-            res.send({data :result});
-        });     
+    //     var query = db.query(sql, function (err, result) {
+    //         res.send({data :result});
+    //     });   
+        
+        var post = req.body.data;
+        var values = req.body.data;
+        
+        console.log("Values",post);
+        var sql = "INSERT INTO `surveyquestions` (`SurveyId`,`Question`, `AnswerType`,`Option1`, `Option2`, `Option3`, `Option4`) VALUES ?";
+        
+        var query = db.query(sql, [values], function (err, result) {
+            console.log("Err",err);
+
+            res.send({});
+        });
 }
 
 exports.create = function (req, res) {
@@ -98,6 +112,20 @@ exports.search = function(req,res) {
    });
 }
 
+exports.editQuestion = function(req,res) {
+    console.log(req.body);
+    if (req.body.data.length > 0) {
+        var post =req.body.data;
+        var sqlArray = [];
+        for (var i =0; i<post.length;i++) {
+            var sql = "update `surveyquestions` set SurveyId = " + post[i][0] + " , \
+            Question = '" + post[i][1] + "' , AnswerType = '" + post[i][2] + "' , \
+            Option1 = '"  + post[i][3] + "'  , Option2 = '"  + post[i][4] + "' , \
+            Option3 = '"  + post[i][5] + "'  , Option4 = '"  + post[i][6] + "' , \
+            where id = ";
+        }
+    }
+}
 
 
 exports.edit = function(req, res){
@@ -105,7 +133,17 @@ exports.edit = function(req, res){
     var id = req.params.id;
     var connection;
     if (req.method == 'POST') {
+        var post = req.body;
+        var cause_id = post.causeId;
+        var title = post.title;
+        
+        sql = " update `survey` set CauseId = " + cause_id + " , \
+        Title = '" + title + "' where id = " + id;
+        var query = db.query(sql, function (err, result) {
+            console.log("err",err);
 
+            res.send({status :'success'});
+        });
     }
     else {
         var sql = "SELECT * FROM `survey` WHERE `id`='" + id + "'";
