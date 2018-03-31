@@ -113,19 +113,14 @@ exports.search = function(req,res) {
 }
 
 exports.editQuestion = function(req,res) {
-    console.log(req.body);
+
     if (req.body.data.length > 0) {
         var post =req.body.data;
-        var sqlArray = [];
+        var sqlArray = ["Delete from `surveyquestions` where SurveyId = "+ req.params.surveyId + " "];
         for (var i =0; i<post.length;i++) {
-            var sql = "update `surveyquestions` set SurveyId = " + post[i][0] + " , \
-            Question = '" + post[i][1] + "' , AnswerType = '" + post[i][2] + "' , \
-            Option1 = '"  + post[i][3] + "'  , Option2 = '"  + post[i][4] + "' , \
-            Option3 = '"  + post[i][5] + "'  , Option4 = '"  + post[i][6] + "'  \
-            where id = " + post[i][7] + " ";
+            var sql = "INSERT INTO `surveyquestions` (`SurveyId`,`Question`, `AnswerType`,`Option1`, `Option2`, `Option3`, `Option4`) VALUES ( " + post[i][0] + " , '" +  post[i][1] +"' , '" +  post[i][2] + "', '" +  post[i][3] +"' , '" +  post[i][4] +"' , '" + post[i][5] + "' , '" +  post[i][6] + "' ) ";
             sqlArray.push(sql);
         }
-
         var p;
         for (let i = 0, p = Promise.resolve(); i <= sqlArray.length; i++) {
             if (i== sqlArray.length) {
@@ -136,7 +131,6 @@ exports.editQuestion = function(req,res) {
             } else {
                 p = p.then(_ => new Promise((resolve) => {
                     db.query(sqlArray[i],function(err,result) {
-                            console.log("err",err);
                         resolve();
                     })
                 }));

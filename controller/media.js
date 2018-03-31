@@ -1,5 +1,8 @@
 var authentication =require('../helpers/authentication');
 
+var mysql = require('promise-mysql');
+var config = require('../config');
+
 exports.create = function (req, res) {
     message = '';
     if (req.method == "POST") {
@@ -53,13 +56,51 @@ exports.create = function (req, res) {
 exports.edit = function (req, res) {
     var message = '';
     var id = req.params.id;
-    var sql = "SELECT * FROM `localmedia` WHERE `id`='" + id + "'";
-    db.query(sql, function (err, result) {
-        if (result.length <= 0)
-            message = "LocalMedia not found!";
-      
-        res.render('localmediaedit.ejs', { data: result, message: message });
-    });
+    if (req.method == 'POST') {
+
+    }
+    else {
+        var sql = "SELECT * FROM `localmedia` WHERE `id`='" + id + "'";
+        var final_obj = {};
+        var connection;
+        mysql.createConnection(config.dbConfig).then(function(conn){
+            connection = conn;
+            var result = connection.query(sql);
+       
+            return result;
+        }).then(function(rows){
+            final_obj.data = rows;
+            sql = "SELECT * FROM `countries`";
+            result = connection.query(sql);
+            // Logs out a list of hobbits
+            //connection.end();
+            return result;
+        }).then(function(rows) {
+            final_obj.countries = rows
+            sql = "SELECT * FROM `states` where country_id = " + final_obj.data[0].CountryId;
+            result = connection.query(sql);
+            // Logs out a list of hobbits
+            //connection.end();
+            return result;
+        }).then(function(rows) {
+            final_obj.states = rows
+            sql = "SELECT * FROM `cities` where state_id =  " + final_obj.data[0].StateId;
+            result = connection.query(sql);
+            // Logs out a list of hobbits
+            //connection.end();
+            return result;
+        }).then(function(rows) {
+            final_obj.cities = rows;
+            
+            final_obj.message = message;
+            // Logs out a list of hobbits
+            connection.end();
+            
+            res.render('localmediaedit.ejs', final_obj);
+            return result;
+        })
+
+    }
 };
 
 

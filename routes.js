@@ -48,6 +48,8 @@ module.exports = function (app) {
     app.get('/create/localmedia', localmedia.create );
     app.post('/create/localmedia', localmedia.create );
     app.get('/localmedia/edit/:id', localmedia.edit);
+    
+    app.post('/localmedia/edit/:id', localmedia.edit);
 
 
     app.get('/create/resources', resources.create);
