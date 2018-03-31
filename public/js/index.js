@@ -248,6 +248,7 @@ $(document).ready(function(){
   })
 
   var html = '<div id="main-question-div-number"><div class="form-group"> \
+  <input type="text" id="question-id-number"  hidden  > \
   <label for="title" class="col-md-3 control-label">Select question type</label> \
   <div class="col-md-9"> \
       <select class="form-control" name="causeId" id="survey-quest-number"  onchange="getQuestionTypeChange(number)"> \
@@ -335,6 +336,7 @@ quetionHtml = html;
                         console.log(i+1);
                         htmlq = html.replace(/number/gi,i+1);
                         $('#survey-question-div').append(htmlq);
+                        $('#question-id-'+(i+1)).val(data.data[i].ID)
                         $('#survey-question-text-'+(i+1)).val(data.data[i].Question)
                         $('#survey-quest-'+(i+1)).val(data.data[i].AnswerType);
                         $('#survey-question-'+(i+1) +'-option-1').val(data.data[i].Option1)
@@ -375,7 +377,7 @@ quetionHtml = html;
                         question.push(  $('#survey-question-'+i +'-option-2').val());
                         question.push(  $('#survey-question-'+i +'-option-3').val());
                         question.push(  $('#survey-question-'+i +'-option-4').val());
-        
+                        question.push(Number( $('#question-id-'+i).val()))
                         finalObj.push(question);
                     }
                 }
@@ -387,7 +389,7 @@ quetionHtml = html;
                     contentType:"application/json",
                     dataType:"json",
                     success: function(){
-                        //window.location = "/survey";
+                        window.location = "/survey";
                     }
                     })
             }

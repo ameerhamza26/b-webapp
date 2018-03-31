@@ -121,9 +121,30 @@ exports.editQuestion = function(req,res) {
             var sql = "update `surveyquestions` set SurveyId = " + post[i][0] + " , \
             Question = '" + post[i][1] + "' , AnswerType = '" + post[i][2] + "' , \
             Option1 = '"  + post[i][3] + "'  , Option2 = '"  + post[i][4] + "' , \
-            Option3 = '"  + post[i][5] + "'  , Option4 = '"  + post[i][6] + "' , \
-            where id = ";
+            Option3 = '"  + post[i][5] + "'  , Option4 = '"  + post[i][6] + "'  \
+            where id = " + post[i][7] + " ";
+            sqlArray.push(sql);
         }
+
+        var p;
+        for (let i = 0, p = Promise.resolve(); i <= sqlArray.length; i++) {
+            if (i== sqlArray.length) {
+                p.then(()=> {
+            
+                    res.send({status: 'success'});
+                })
+            } else {
+                p = p.then(_ => new Promise((resolve) => {
+                    db.query(sqlArray[i],function(err,result) {
+                            console.log("err",err);
+                        resolve();
+                    })
+                }));
+            }
+
+        }
+    } else {
+        res.send({status: 'success'});
     }
 }
 
