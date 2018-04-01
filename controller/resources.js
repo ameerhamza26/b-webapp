@@ -51,6 +51,10 @@ exports.create = function (req, res) {
             return result;
         }).then(function(row) {
             connection.end();
+            res.cookie('message', 'Resources is successfully created')
+            res.cookie('icon', 'success')
+            res.cookie('heading', 'Success')
+
             res.redirect('/resources');
         }).catch(function(err) {
             console.log(err);
@@ -184,6 +188,11 @@ exports.edit = function (req, res) {
             }
         }).then(function(row) {
             connection.end();
+
+            
+            res.cookie('message', 'Resources is successfully updated')
+            res.cookie('icon', 'success')
+            res.cookie('heading', 'Success')
             res.redirect('/resources');
         }).catch(function(err) {
             console.log(err);

@@ -19,6 +19,10 @@ exports.create = function (req, res) {
             console.log("Err",err);
             console.log(query.sql);
             console.log('result------',result.insertId);
+
+            res.cookie('message', 'Talking point is successfully created')
+            res.cookie('icon', 'success')
+            res.cookie('heading', 'Success')
             res.redirect('/talkingpoints');
         });
     } else {
@@ -50,6 +54,10 @@ exports.edit = function (req, res) {
         var query = db.query(sql, function (err, result) {
             console.log(query.sql);
             console.log('result------',result.insertId);
+
+            res.cookie('message', 'Talking point is successfully created')
+            res.cookie('icon', 'success')
+            res.cookie('heading', 'Success')
             res.redirect('/talkingpoints');
         });
     }

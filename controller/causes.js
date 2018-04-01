@@ -10,7 +10,14 @@ exports.create = function(req,res) {
                  return res.status(400).send('No files were uploaded.');
  
          var file = req.files.uploaded_image;
-         var img_name=file.name;
+         if (typeof file == "undefined") {
+            res.cookie('message', 'Please upload an image! ')
+            res.cookie('icon', 'error')
+            res.cookie('heading', 'Error')
+            res.render('causes.ejs',{message: message});
+        }
+        else {
+            var img_name=file.name;
  
             if(file.mimetype == "image/jpeg" ||file.mimetype == "image/png"||file.mimetype == "image/gif" ){
                                   
@@ -22,13 +29,22 @@ exports.create = function(req,res) {
                            var sql = "INSERT INTO `causes`(`Title`,`Description`,`Image`) VALUES ('" + title + "','" + description + "','" + img_name + "')";
  
                              var query = db.query(sql, function(err, result) {
-                                  res.redirect('/causes/edit/'+result.insertId);
+                                 
+                                  res.cookie('message', 'Cause is successfully created.')
+                                  res.cookie('icon', 'success')
+                                  res.cookie('heading', 'Success')
+                                  res.redirect('/home');
                              });
                         });
            } else {
              message = "This format is not allowed , please upload file with '.png','.gif','.jpg'";
+             res.cookie('message', message)
+             res.cookie('icon', 'error')
+             res.cookie('heading', 'Error')
              res.render('causes.ejs',{message: message});
            }
+        }
+         
     } else {
        res.render('causes');
     } 
@@ -50,6 +66,9 @@ exports.edit = function(req, res){
            // var sql = "INSERT INTO `causes`(`Title`,`Description`,`Image`) VALUES ('" + title + "','" + description + "','" + img_name + "')";
             
             var query = db.query(sql, function(err, result) {
+                    res.cookie('message', 'Cause is successfully updated.')
+                    res.cookie('icon', 'success')
+                    res.cookie('heading', 'Success')
                    return res.redirect('/home');
             });
         }
@@ -64,6 +83,10 @@ exports.edit = function(req, res){
             var query = db.query(sql, function(err, result) {
                 console.log("Err",err);
 
+                
+                res.cookie('message', 'Cause is successfully updated.')
+                res.cookie('icon', 'success')
+                res.cookie('heading', 'Success')
                     res.redirect('/home');
             });
           }
@@ -82,6 +105,10 @@ exports.edit = function(req, res){
                                       sql = "update `causes` set Title = '"+ title+"' , description = '" + description+ "' , image = '"+ img_name + "' where id = " + id;
             
                                         var query = db.query(sql, function(err, result) {
+                                            
+                                                res.cookie('message', 'Cause is successfully updated.')
+                                                res.cookie('icon', 'success')
+                                                res.cookie('heading', 'Success')
                                                 res.redirect('/home');
                                         });
                                    });

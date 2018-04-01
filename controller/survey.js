@@ -60,6 +60,9 @@ exports.createQuestions = function(req,res) {
         var query = db.query(sql, [values], function (err, result) {
             console.log("Err",err);
 
+            res.cookie('message', 'Survey is successfully created')
+            res.cookie('icon', 'success')
+            res.cookie('heading', 'Success')
             res.send({});
         });
 }
@@ -75,6 +78,10 @@ exports.create = function (req, res) {
         var sql = "INSERT INTO `survey`(`CauseId`,`Title`) VALUES ('" + cause_id + "','" + title + "')";
 
         var query = db.query(sql, function (err, result) {
+
+            res.cookie('message', 'Survey is successfully created')
+            res.cookie('icon', 'success')
+            res.cookie('heading', 'Success')
             res.send({surveyId :result.insertId});
         });
     } else {

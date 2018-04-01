@@ -61,6 +61,9 @@ exports.sendPushNotification = function(req,res) {
                 console.log("Successfully sent with response: ", response);
             }
             connection.end();
+            res.cookie('message', 'Notification is successfully sent to all mobile users')
+            res.cookie('icon', 'success')
+            res.cookie('heading', 'Success')
             res.send({message:'Notification sent', status: 'success'})
         });
 

@@ -19,6 +19,10 @@ exports.create = function (req, res) {
         var sql = "INSERT INTO `Events`(`CauseId`,`Title`,`Location`,`StartDate`, `EndDate`, `Notes`) VALUES ('" + cause_id + "','" + title + "','" + location + "','" + start_date + "','" + end_date + "','" + notes + "')";
 
         var query = db.query(sql, function (err, result) {
+            
+            res.cookie('message', 'Event is successfully created')
+            res.cookie('icon', 'success')
+            res.cookie('heading', 'Success')
             res.redirect('/events');
         });
     } else {
@@ -49,6 +53,10 @@ exports.edit = function (req, res) {
         var sql = "Update `events` set CauseId = " + cause_id + " , Title = '" + title + "' , Location = '" + location + "' , StartDate = '" + start_date + "' , EndDate = '" + end_date + "' , Notes = '"+ notes +"' where id = " + id;
         var query = db.query(sql, function (err, result) {
             console.log(err);
+
+            res.cookie('message', 'Event is successfully updated')
+            res.cookie('icon', 'success')
+            res.cookie('heading', 'Success')
             res.redirect('/events');
         });
     }

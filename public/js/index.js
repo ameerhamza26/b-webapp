@@ -250,6 +250,7 @@ $(document).ready(function(){
   })
 
   var html = '';
+  var htmledit = '';
   $.get("/files/questiontemplate", function( my_var ) {
     html = my_var;
     quetionHtml = html;
@@ -257,8 +258,9 @@ $(document).ready(function(){
 });
 
 $.get("/files/editquestiontemplate", function( my_var ) {
-    html = my_var;
-    questionHtmlEdit = html;
+    //html = my_var;
+    htmledit = my_var;
+    questionHtmlEdit = htmledit;
     // my_var contains whatever that request returned
 });
 
@@ -292,7 +294,7 @@ $.get("/files/editquestiontemplate", function( my_var ) {
                 if (data.data.length > 0) {
                     for (var i=0; i< data.data.length; i++) {
                         console.log(i+1);
-                        htmlq = html.replace(/number/gi,i+1);
+                        htmlq = htmledit.replace(/number/gi,i+1);
                         $('#survey-question-div').append(htmlq);
                         $('#question-id-'+(i+1)).val(data.data[i].ID)
                         $('#survey-question-text-'+(i+1)).val(data.data[i].Question)
@@ -372,6 +374,39 @@ $.get("/files/editquestiontemplate", function( my_var ) {
             }
         });
     })
+
+
+
+
+        
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    if (getCookie('message')) {
+        console.log("in if");
+        $.toast({
+            heading: getCookie('heading'),
+            text: getCookie('message'),
+            position: 'top-right',
+            stack: false,
+            icon: getCookie('icon')
+        })
+
+        document.cookie = "message=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
 });
 
 
@@ -448,8 +483,34 @@ function submitQuestions() {
             contentType:"application/json",
             dataType:"json",
             success: function(){
+                $.toast({
+                    heading: getCookie2('heading'),
+                    text: getCookie2('message'),
+                    position: 'top-right',
+                    stack: false,
+                    icon: getCookie2('icon')
+                })
+        
+                document.cookie = "message=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 window.location = "/survey";
             }
             })
     }
+}
+
+
+function getCookie2(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }

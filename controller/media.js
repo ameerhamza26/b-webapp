@@ -30,7 +30,11 @@ exports.create = function (req, res) {
                   var sql = "INSERT INTO `localmedia`(`Name`,`Contact`,`Image`,`CityId`, `StateId`, `CountryId`) VALUES ('" + name + "','" + contact + "','" + img_name + "'," + cityId + "," + stateId + "," + countryId + ")";
 
                     var query = db.query(sql, function (err, result) {
-                        res.redirect('/localmedia/edit/'+result.insertId);
+                        res.cookie('message', 'Local media is successfully created')
+                        res.cookie('icon', 'success')
+                        res.cookie('heading', 'Success')
+
+                        res.redirect('/localmedia');
                     });
 
                 });
@@ -78,6 +82,9 @@ exports.edit = function (req, res) {
             var query = db.query(sql, function(err, result) {
                 console.log("Err",err);
 
+                        res.cookie('message', 'Local media is successfully updated')
+                        res.cookie('icon', 'success')
+                        res.cookie('heading', 'Success')
                     res.redirect('/localmedia');
             });
           }
@@ -98,6 +105,10 @@ exports.edit = function (req, res) {
                         var query = db.query(sql, function (err, result) {
                             console.log("errr",err);
 
+
+                            res.cookie('message', 'Local media is successfully updated')
+                            res.cookie('icon', 'success')
+                            res.cookie('heading', 'Success')
                             res.redirect('/localmedia');
                         });
     
