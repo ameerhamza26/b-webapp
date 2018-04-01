@@ -360,6 +360,18 @@ $.get("/files/editquestiontemplate", function( my_var ) {
     })
 
 
+    $('#notification-btn').click(function() {
+        $.post('/api/send/notification', 
+        { title: $('#notification-title').val(),
+          causeId: $('#notification-cause').val(),
+          message: $('#notification-message').val()  
+        }, function(data,status) {
+            console.log("data",data);
+            if (data.status == 'success' ) {
+                window.location = "/home";
+            }
+        });
+    })
 });
 
 

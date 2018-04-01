@@ -57,6 +57,59 @@ exports.edit = function (req, res) {
     var message = '';
     var id = req.params.id;
     if (req.method == 'POST') {
+        var post = req.body;
+        var name = post.name;
+        var contact = post.contact;
+
+        var cityId = post.cityId;
+        var stateId = post.stateId;
+        var countryId = post.countryId;
+
+        
+        var file = req.files.uploaded_image;
+        var sql = "";
+        if (typeof file == "undefined") {
+            console.log("in if")
+           sql = "update `localmedia` set Name = '" + name+ "' , Contact = '" + contact + "' , \
+           CityId =  " + cityId + " , StateId = " +stateId + " , CountryId = " + countryId + " \
+            where id = " + id;
+            
+            
+            var query = db.query(sql, function(err, result) {
+                console.log("Err",err);
+
+                    res.redirect('/localmedia');
+            });
+          }
+          else {
+            var img_name=file.name;
+
+            if(file.mimetype == "image/jpeg" ||file.mimetype == "image/png"||file.mimetype == "image/gif" ){
+                                      
+                file.mv('public/images/upload_images/'+file.name, function(err) {
+                               
+                    if (err)
+    
+                      return res.status(500).send(err);
+    
+                      sql = "update `localmedia` set Name = '" + name+ "' , Contact = '" + contact + "' , \
+                      CityId =  " + cityId + " , StateId = " +stateId + " , CountryId = " + countryId + " , Image = '"+ img_name + "' \
+                       where id = " + id;
+                        var query = db.query(sql, function (err, result) {
+                            console.log("errr",err);
+
+                            res.redirect('/localmedia');
+                        });
+    
+                    });
+            } else {
+              message = "This format is not allowed , please upload file with '.png','.gif','.jpg'";
+              res.render('localmediaedit.ejs',{message: message});
+            }
+    
+    
+          }
+
 
     }
     else {

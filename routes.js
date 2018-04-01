@@ -73,6 +73,8 @@ module.exports = function (app) {
 
     app.get('/resources' , resources.list)
 
+    app.get('/sendnotification', notification.get);
+
     app.get('/api/cause/search/talkinpoint', talkingPoints.search);
     app.get('/api/cause/search/resources', resources.search);
     /*Mobile Web  */
