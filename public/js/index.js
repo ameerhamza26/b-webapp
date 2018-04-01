@@ -389,8 +389,8 @@ function getQuestionTypeChange(number) {
 var questionCount = 1;
 
 function addMoreQuestionEdit() {
-    $('#question-button-div-'+ editQuestionCount).hide();
-    $('#delete-button-div-'+ editQuestionCount).show();
+    $('#question-button-div-'+ (editQuestionCount-1)).hide();
+    $('#delete-button-div-'+ (editQuestionCount-1)).show();
 
     var html = questionHtmlEdit.replace(/number/gi, editQuestionCount);
     editQuestionCount++;
