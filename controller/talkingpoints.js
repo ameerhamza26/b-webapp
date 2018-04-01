@@ -11,10 +11,12 @@ exports.create = function (req, res) {
         var cause_id = post.cause;
         var title = post.title;
         var description = post.description;
+        description = description.replace(/'/g, '\\\'');
 
         var sql = "INSERT INTO `talkingpoints`(`CauseId`,`Title`,`Description`) VALUES ('" + cause_id + "','" + title + "','" + description + "')";
 
-        var query = db.query(sql, function (err, result) {
+        var query = db.query(sql,  function (err, result) {
+            console.log("Err",err);
             console.log(query.sql);
             console.log('result------',result.insertId);
             res.redirect('/talkingpoints');
