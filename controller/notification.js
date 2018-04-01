@@ -128,7 +128,7 @@ exports.addDeviceToken = function(req,res) {
 
 exports.get = function(req,res) {
     message = '';
-    var sql = "SELECT `ID`, `Title` FROM `Causes`";
+    var sql = "SELECT `ID`, `Title` FROM `causes`";
     db.query(sql, function (err, result) {
         if (result.length <= 0)
             message = "Causes not found!";
