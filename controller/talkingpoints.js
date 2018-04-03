@@ -73,7 +73,7 @@ exports.edit = function (req, res) {
                 return result;
             }).then(function(rows){
                 final_obj.data = rows;
-                sql = "SELECT `ID`, `Title` FROM `Causes`";
+                sql = "SELECT `ID`, `Title` FROM `causes`";
                 result = connection.query(sql);
                 // Logs out a list of hobbits
                 connection.end();
