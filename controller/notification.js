@@ -47,7 +47,9 @@ exports.sendPushNotification = function(req,res) {
             
             notification: {
                 title: post.title, 
-                body: post.message 
+                body: post.message ,
+                sound: "default",
+                click_action: "FCM_PLUGIN_ACTIVITY",
             },
             
             data: final_obj.data
