@@ -235,6 +235,6 @@ exports.saveUserResponse = function(req,res) {
     var sql = "INSERT INTO `userresponsesurvey`(`SurveyId`,`Question`, `Answer`) VALUES ?";
     
     var query = db.query(sql, [values], function (err, result) {
-        res.send({id :result.insertId});
+        res.send({status :'success'});
     });
 }
