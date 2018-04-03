@@ -13,6 +13,9 @@ var express = require('express')
   var Twit = require('twit');
   var config = require('./config');
 
+  var _ = require('lodash');
+  global._ = _;  
+
   //var Sequelize = require('sequelize');
   //var sequelize = new Sequelize('burmacausemanagement', 'root', '', {
   //  host: 'localhost',
