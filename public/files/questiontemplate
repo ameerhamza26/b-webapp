@@ -40,7 +40,7 @@
   </div> 
   <div class="form-group" id="question-button-div-number"> 
   <div class="col-md-offset-3 col-md-9"> 
-      <button id="survey-question-submit-number" type="submit" class="btn btn-info" onclick="addMoreQuestion()"> 
+      <button id="survey-question-submit-number" type="submit" class="btn btn-primary" onclick="addMoreQuestion()"> 
           <i class="icon-hand-right"></i> &nbsp Add more question</button> 
   </div> 
   <div class="col-md-offset-3 col-md-9"> 
@@ -50,7 +50,7 @@
   </div> 
   <div id="delete-button-div-number" style="display:none"> 
       <div class="col-md-offset-3 col-md-9"> 
-      <button id="survey-question-delete-number" type="submit" class="btn btn-info" onclick="deleteQuestion(number)"> 
+      <button id="survey-question-delete-number" type="submit" class="btn btn-primary" onclick="deleteQuestion(number)"> 
           <i class="icon-hand-right"></i> &nbsp Delete this question </button> 
       </div> 
   </div></div>
