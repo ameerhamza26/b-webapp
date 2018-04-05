@@ -12,6 +12,8 @@ exports.create = function (req, res) {
         var title = post.title;
         var description = post.description;
         description = description.replace(/'/g, '\\\'');
+        
+        title = title.replace(/'/g, '\\\'');
 
         var sql = "INSERT INTO `talkingpoints`(`CauseId`,`Title`,`Description`) VALUES ('" + cause_id + "','" + title + "','" + description + "')";
 
@@ -46,6 +48,10 @@ exports.edit = function (req, res) {
         var cause_id = post.cause;
         var title = post.title;
         var description = post.description;
+        
+        description = description.replace(/'/g, '\\\'');
+        
+        title = title.replace(/'/g, '\\\'');
         
         var sql ="Update  `talkingpoints` set CauseId = " + cause_id + " , \
         Title = '" + title + "' , \

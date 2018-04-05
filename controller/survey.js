@@ -75,6 +75,8 @@ exports.create = function (req, res) {
         var cause_id = post.causeId;
         var title = post.title;
         
+        title = title.replace(/'/g, '\\\'');
+        
         var sql = "INSERT INTO `survey`(`CauseId`,`Title`) VALUES ('" + cause_id + "','" + title + "')";
 
         var query = db.query(sql, function (err, result) {
@@ -159,6 +161,7 @@ exports.edit = function(req, res){
         var cause_id = post.causeId;
         var title = post.title;
         
+        title = title.replace(/'/g, '\\\'');
         sql = " update `survey` set CauseId = " + cause_id + " , \
         Title = '" + title + "' where id = " + id;
         var query = db.query(sql, function (err, result) {
