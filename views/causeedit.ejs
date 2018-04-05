@@ -13,7 +13,7 @@
         <div class="col-md-8 order-md-2">
           <h4 class="mb-3">Edit Cause</h4>
 
-          <form class="needs-validation" method="post" action="/causes/edit/<%=data[0].ID%>" enctype="multipart/form-data" novalidate="">
+          <form id="add-cause-form" class="needs-validation" method="post" action="/causes/edit/<%=data[0].ID%>" onsubmit="return validateCauseForm('edit')" enctype="multipart/form-data" novalidate="">
               <% if (message.length > 0) { %>
                   <div class="alert alert-success col-sm-12"><%= message %></div>
               <% } %>
@@ -21,13 +21,13 @@
               <div class="form-group">
                       <label for="first_name" class="col-md-3 control-label">Title</label>
                       <div class="col-md-9">
-                          <input type="text" class="form-control" name="title" placeholder="Title" value="<%=data[0].Title%>">
+                          <input type="text" class="form-control" name="title" maxlength="99" placeholder="Title" value="<%=data[0].Title%>">
                       </div>
                   </div>
                   <div class="form-group">
                       <label for="last_name" class="col-md-3 control-label">Description</label>
                       <div class="col-md-9">
-                          <input type="text" class="form-control" name="description" placeholder="Description" value="<%=data[0].Description%>">
+                          <input type="text" class="form-control" name="description" maxlength="1999" placeholder="Description" value="<%=data[0].Description%>">
                       </div>
                   </div>                  
                   <div class="form-group">

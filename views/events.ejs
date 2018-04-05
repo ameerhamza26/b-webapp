@@ -11,7 +11,7 @@
 
         <div class="col-md-8 order-md-2">
             <h4 class="mb-3">Create Event</h4>
-            <form class="form-horizontal" role="form" method="post" action="/create/event">
+            <form id="add-event-form" onsubmit="return validateEventForm()" class="form-horizontal" role="form" method="post" action="/create/event">
                 <% if (message.length > 0) { %>
                     <div class="alert alert-success col-sm-12">
                         <%= message %>
@@ -24,7 +24,7 @@
                         <div class="form-group">
                             <label for="title" class="col-md-3 control-label">Title</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="title" placeholder="Title">
+                                <input type="text" class="form-control" maxlength="99" name="title" placeholder="Title">
                             </div>
                         </div>
                         <div class="form-group">
@@ -46,7 +46,7 @@
                         <div class="form-group">
                             <label for="location" class="col-md-3 control-label">Location</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="location" placeholder="Location">
+                                <input type="text" class="form-control" maxlength="99" name="location" placeholder="Location">
                             </div>
                         </div>
                         <div class="form-group">
@@ -64,7 +64,7 @@
                         <div class="form-group">
                             <label for="notes" class="col-md-3 control-label">Notes</label>
                             <div class="col-md-9">
-                                <textarea class="form-control" name="notes" placeholder="Notes"></textarea>
+                                <textarea class="form-control" maxlength="1999" name="notes" placeholder="Notes"></textarea>
                             </div>
                         </div>
 

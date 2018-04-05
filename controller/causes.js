@@ -6,6 +6,10 @@ exports.create = function(req,res) {
        var title= post.title;
        var description= post.description;
  
+       
+       title = title.replace(/'/g, '\\\'');
+       description = description.replace(/'/g, '\\\'');
+
        if (!req.files)
                  return res.status(400).send('No files were uploaded.');
  
@@ -60,6 +64,10 @@ exports.edit = function(req, res){
         var post  = req.body;
         var title= post.title;
         var description= post.description;
+        
+       title = title.replace(/'/g, '\\\'');
+       description = description.replace(/'/g, '\\\'');
+       
         if (!req.files) {
             console.log("in if")
             sql = "update `cause` set Title = '"+ title+"' , description = '" + description+ "' where id = " + id;

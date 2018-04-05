@@ -5,7 +5,7 @@ var questionHtmlEdit = "";
 
 ////////////////////validation/////////////
 
-function validateCauseForm() {
+function validateCauseForm(type) {
     var title = document.forms["add-cause-form"]["title"].value;
     var description = document.forms["add-cause-form"]["description"].value;
     var file = document.forms["add-cause-form"]["uploaded_image"];
@@ -20,8 +20,48 @@ function validateCauseForm() {
         return false;
     }
 
-    if( file.files.length == 0 ){
-        showToastMsg('Error', 'Image is not selected', 'error');
+    if (type!='edit') {   
+        if( file.files.length == 0 ){
+            showToastMsg('Error', 'Image is not selected', 'error');
+            return false;
+        }
+    }
+}
+
+function validateEventForm() {
+    var title = document.forms["add-event-form"]["title"].value;
+    var location = document.forms["add-event-form"]["location"].value;
+    var notes = document.forms["add-event-form"]["notes"].value;
+    var start_date  = document.forms["add-event-form"]["start_date"].value;
+    var end_date =  document.forms["add-event-form"]["end_date"].value;
+    
+    var cause =  document.forms["add-event-form"]["cause"].value;
+
+    if (title == "") {
+        showToastMsg('Error', 'Title field is empty', 'error');
+        return false;
+    }
+
+    if (cause == "") {
+        showToastMsg('Error', 'Select cause', 'error');
+        return false;
+    }
+
+    if (location == "") {
+        showToastMsg('Error', 'Location field is empty', 'error');
+        return false;
+    }
+
+    if (start_date == "") {
+        showToastMsg('Error', 'Start date field is empty', 'error');
+        return false;
+    }
+    if (end_date == "") {
+        showToastMsg('Error', 'End date field is empty', 'error');
+        return false;
+    }
+    if (notes == "") {
+        showToastMsg('Error', 'Notes field is empty', 'error');
         return false;
     }
 }

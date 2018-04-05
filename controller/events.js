@@ -15,6 +15,11 @@ exports.create = function (req, res) {
         var start_date = post.start_date;
         var end_date = post.end_date;
         var notes = post.notes;
+
+        
+       title = title.replace(/'/g, '\\\'');
+       location = location.replace(/'/g, '\\\'');
+       notes = notes.replace(/'/g, '\\\'');
         
         var sql = "INSERT INTO `Events`(`CauseId`,`Title`,`Location`,`StartDate`, `EndDate`, `Notes`) VALUES ('" + cause_id + "','" + title + "','" + location + "','" + start_date + "','" + end_date + "','" + notes + "')";
 
@@ -59,6 +64,11 @@ exports.edit = function (req, res) {
         var end_date = post.end_date;
         var notes = post.notes;
 
+        
+       title = title.replace(/'/g, '\\\'');
+       location = location.replace(/'/g, '\\\'');
+       notes = notes.replace(/'/g, '\\\'');
+       
         var sql = "Update `events` set CauseId = " + cause_id + " , Title = '" + title + "' , Location = '" + location + "' , StartDate = '" + start_date + "' , EndDate = '" + end_date + "' , Notes = '"+ notes +"' where id = " + id;
         var query = db.query(sql, function (err, result) {
             console.log(err);
