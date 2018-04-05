@@ -181,7 +181,7 @@ exports.edit = function(req, res){
         }).then(function(rows){
             final_obj.data = rows;
             
-            sql = "SELECT `ID`, `Title` FROM `Causes`";
+            sql = "SELECT `ID`, `Title` FROM `causes`";
             result = connection.query(sql);
             return result;
         }).then(function(rows){
