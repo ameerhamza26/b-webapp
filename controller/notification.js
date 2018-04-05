@@ -34,7 +34,11 @@ exports.sendPushNotification = function(req,res) {
         return result;
     }).then(function(cause) {
         final_obj.data = cause[0];
-        var sql = " insert into `notifications` (Title, CauseId) Values ('" +post.title+"', " +post.causeId + ")";
+        var title = post.title;
+
+        title = title.replace(/'/g, '\\\'');
+        
+        var sql = " insert into `notifications` (Title, CauseId) Values ('" +title+"', " +post.causeId + ")";
         var result = connection.query(sql);
         return result;
     }).then(function() {

@@ -14,7 +14,8 @@ exports.create = function (req, res) {
         var cityId = post.cityId;
         var stateId = post.stateId;
         var countryId = post.countryId;
-
+                
+        name = name.replace(/'/g, '\\\'');
         
         var file = req.files.uploaded_image;
         var img_name=file.name;
