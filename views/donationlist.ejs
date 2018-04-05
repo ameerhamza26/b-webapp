@@ -1,0 +1,31 @@
+<% include partials/head %>
+<body>
+    <% include partials/header %>
+    
+    <div class="container full-page">
+        <div class="py-5 text-center">
+            <h2 class="lead mt-5">Welcome to Burma cause management</h2>
+        </div>
+
+        <% include partials/sidemenu %>
+
+        <div class="col-md-8 order-md-2">
+            <h4 class="mb-3">Donation urls</h4>
+            <a href="/create/donationurls" class="btn btn-primary mb-2">Add new</a>
+            <div id="event-list-group" class="list-group">
+                <% for(var i=0; i<data.length; i++) { %>
+                    <div class="list-group-item">
+                        <h4 class="list-group-item-heading"><a href="<%=data[i].Url%>" target="_blank"><%=data[i].Url%></a></h4>
+                        <span>Cause: </span> <span><%=data[i].CauseTitle%></span>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+
+    </div>
+
+    <% include partials/footer %>
+
+</body>
+
+

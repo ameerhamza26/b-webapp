@@ -7,6 +7,7 @@ var localmedia = require('./controller/media');
 var country = require('./controller/country');
 var survey = require('./controller/survey');
 var notification = require('./controller/notification');
+var donation = require('./controller/donation');
 // development only
 
 module.exports = function (app) {
@@ -83,6 +84,9 @@ module.exports = function (app) {
     app.get('/api/states/:countryId', country.getStateByCountry);
     
     app.get('/api/cities/:stateId', country.getCitiesByState);
+    app.get('/donationurls', donation.get);
+    app.get('/create/donationurls', donation.create);
+    app.post('/create/donationurls', donation.create);
 
     app.get('/api/localmedia/search', localmedia.search);
     app.get('/api/events/:causeId', events.getByCause);
