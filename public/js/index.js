@@ -2,6 +2,40 @@ var quetionHtml = "";
 var surveyId = 0;
 var editQuestionCount = 1;
 var questionHtmlEdit = "";
+
+////////////////////validation/////////////
+
+function validateCauseForm() {
+    var title = document.forms["add-cause-form"]["title"].value;
+    var description = document.forms["add-cause-form"]["description"].value;
+    var file = document.forms["add-cause-form"]["uploaded_image"];
+
+    if (title == "") {
+        showToastMsg('Error', 'Title field is empty', 'error');
+        return false;
+    }
+
+    if (description == "") {
+        showToastMsg('Error', 'Description field is empty', 'error');
+        return false;
+    }
+
+    if( file.files.length == 0 ){
+        showToastMsg('Error', 'Image is not selected', 'error');
+        return false;
+    }
+}
+
+function showToastMsg(heading, text, icon) {
+    $.toast({
+        heading: heading,
+        text: text ,
+        position: 'top-right',
+        stack: false,
+        icon: icon
+    })
+}
+
 $(document).ready(function(){
     console.log("in javaascript");
     $('#event-search').on('input', function() {
