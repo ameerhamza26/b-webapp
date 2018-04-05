@@ -26,7 +26,7 @@ exports.create = function (req, res) {
             res.redirect('/events');
         });
     } else {
-        var sql = "SELECT `ID`, `Title` FROM `Causes`";
+        var sql = "SELECT `ID`, `Title` FROM `causes`";
         db.query(sql, function (err, result) {
             if (result.length <= 0)
                 message = "Causes not found!";
@@ -72,7 +72,7 @@ exports.edit = function (req, res) {
                 return result;
             }).then(function(rows){
                 final_obj.data = rows;
-                sql = "SELECT `ID`, `Title` FROM `Causes`";
+                sql = "SELECT `ID`, `Title` FROM `causes`";
                 result = connection.query(sql);
                 // Logs out a list of hobbits
                 connection.end();
