@@ -11,7 +11,7 @@
 
         <div class="col-md-8 order-md-2">
             <h4 class="mb-3">Edit talking point</h4>
-            <form class="form-horizontal" role="form" method="post" action="/talkingpoints/edit/<%=data[0].ID%>">
+            <form id="add-talking-form" onsubmit="return validateTalkingPointForm()" class="form-horizontal" role="form" method="post" action="/talkingpoints/edit/<%=data[0].ID%>">
                 <% if (message.length > 0) { %>
                     <div class="alert alert-success col-sm-12">
                         <%= message %>
@@ -24,7 +24,7 @@
                         <div class="form-group">
                             <label for="title" class="col-md-3 control-label">Title</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="title"  value="<%= data[0].Title %>" placeholder="Title">
+                                <input type="text" class="form-control" maxlength="99" name="title"  value="<%= data[0].Title %>" placeholder="Title">
                             </div>
                         </div>
                         <div class="form-group">
@@ -51,7 +51,7 @@
                         <div class="form-group">
                             <label for="notes" class="col-md-3 control-label">Description</label>
                             <div class="col-md-9">
-                                <textarea class="form-control" name="description" placeholder="Description"><%= data[0].Description %></textarea>
+                                <textarea class="form-control" maxlength="1999" name="description" placeholder="Description"><%= data[0].Description %></textarea>
                             </div>
                         </div>
 

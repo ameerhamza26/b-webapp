@@ -11,7 +11,7 @@
 
         <div class="col-md-8 order-md-2">
             <h4 class="mb-3">Edit resources</h4>
-            <form class="form-horizontal" role="form" method="post" action="/resources/edit/<%=data[0].ID%>">
+            <form id="add-resources-form" onsubmit="return validateResourcesForm()"  class="form-horizontal" role="form" method="post" action="/resources/edit/<%=data[0].ID%>">
                 <% if (message.length > 0) { %>
                     <div class="alert alert-success col-sm-12">
                         <%= message %>
@@ -26,7 +26,7 @@
                     <div class="form-group">
                         <label for="first_name" class="col-md-3 control-label">Title</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="title" placeholder="Title" value="<%=data[0].Title%>">
+                            <input type="text" class="form-control" maxlength="99" name="title" placeholder="Title" value="<%=data[0].Title%>">
                         </div>
                     </div>
 
@@ -55,7 +55,7 @@
                     <div class="form-group">
                         <label for="last_name" class="col-md-3 control-label">Description</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="description" placeholder="Description" value="<%=data[0].Description%>">
+                            <input type="text" class="form-control" maxlength="1999" name="description" placeholder="Description" value="<%=data[0].Description%>">
                         </div>
                     </div>   
 
@@ -63,32 +63,32 @@
                         <label for="last_name" class="col-md-3 control-label">Add reference urls</label>
                         <%if (typeof url[0] != 'undefined') { %>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="url1" placeholder="Reference url 1" value="<%=url[0].Url%>">
+                                <input type="url" class="form-control" name="url1" placeholder="Reference url 1  e.g http://www.example.com" value="<%=url[0].Url%>">
                             </div>
                         
                         <% } else {  %>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="url1" placeholder="Reference url 1" >
+                                <input type="url" class="form-control" name="url1" placeholder="Reference url 1 e.g http://www.example.com" >
                             </div>
                         <% }%>
                         <%if (typeof url[1] != 'undefined') { %>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="url2" placeholder="Reference url 2" value="<%=url[1].Url%>">
+                                <input type="url" class="form-control" name="url2" placeholder="Reference url 2 e.g http://www.example.com" value="<%=url[1].Url%>">
                             </div>
                         
                         <% } else {  %>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="url2" placeholder="Reference url 2" >
+                                <input type="url" class="form-control" name="url2" placeholder="Reference url 2 e.g http://www.example.com" >
                             </div>
                         <% }%>
                         <%if (typeof url[2] != 'undefined') { %>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="url3" placeholder="Reference url 3" value="<%=url[2].Url%>">
+                                <input type="url" class="form-control" name="url3" placeholder="Reference url 3 e.g http://www.example.com" value="<%=url[2].Url%>">
                             </div>
                         
                         <% } else {  %>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="url3" placeholder="Reference url 3" >
+                                <input type="url" class="form-control" name="url3" placeholder="Reference url 3 e.g http://www.example.com" >
                             </div>
                         <% }%>
                         

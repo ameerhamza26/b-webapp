@@ -11,7 +11,7 @@
 
         <div class="col-md-8 order-md-2">
             <h4 class="mb-3">Add resources</h4>
-            <form class="form-horizontal" role="form" method="post" action="/create/resources">
+            <form id="add-resources-form" onsubmit="return validateResourcesForm()"  class="form-horizontal" role="form" method="post" action="/create/resources">
                 <% if (message.length > 0) { %>
                     <div class="alert alert-success col-sm-12">
                         <%= message %>
@@ -26,7 +26,7 @@
                     <div class="form-group">
                         <label for="first_name" class="col-md-3 control-label">Title</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="title" placeholder="Title">
+                            <input type="text" maxlength="99" class="form-control" name="title" placeholder="Title">
                         </div>
                     </div>
 
@@ -50,20 +50,20 @@
                     <div class="form-group">
                         <label for="last_name" class="col-md-3 control-label">Description</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="description" placeholder="Description">
+                            <input type="text" maxlength="1999" class="form-control" name="description" placeholder="Description">
                         </div>
                     </div>   
 
                     <div class="form-group">
                         <label for="last_name" class="col-md-3 control-label">Add reference urls</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="url1" placeholder="Reference url 1">
+                            <input type="url" class="form-control" name="url1" placeholder="Reference url 1 e.g http://www.example.com">
                         </div>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="url2" placeholder="Reference url 2">
+                            <input type="url" class="form-control" name="url2" placeholder="Reference url 2 e.g http://www.example.com">
                         </div>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="url3" placeholder="Reference url 3">
+                            <input type="url" class="form-control" name="url3" placeholder="Reference url 3 e.g http://www.example.com">
                         </div>
                     </div>   
 

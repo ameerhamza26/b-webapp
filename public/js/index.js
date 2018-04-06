@@ -66,6 +66,50 @@ function validateEventForm() {
     }
 }
 
+function validateTalkingPointForm() {
+    var title = document.forms["add-talking-form"]["title"].value;
+    var description = document.forms["add-talking-form"]["description"].value;
+    var cause =  document.forms["add-talking-form"]["cause"].value;
+    if (title == "") {
+        showToastMsg('Error', 'Title field is empty', 'error');
+        return false;
+    }
+    if (description == "") {
+        showToastMsg('Error', 'Description field is empty', 'error');
+        return false;
+    }
+
+    if (cause == "") {
+        showToastMsg('Error', 'Select cause', 'error');
+        return false;
+    }
+
+}
+
+function validateResourcesForm() {
+    var title = document.forms["add-resources-form"]["title"].value;
+    var description = document.forms["add-resources-form"]["description"].value;
+    var cause =  document.forms["add-resources-form"]["cause"].value;
+    var url1 =  document.forms["add-resources-form"]["url1"].value;
+    var url2 =  document.forms["add-resources-form"]["url2"].value;
+    var url3 =  document.forms["add-resources-form"]["url3"].value;
+
+    if (title == "") {
+        showToastMsg('Error', 'Title field is empty', 'error');
+        return false;
+    }
+    if (description == "") {
+        showToastMsg('Error', 'Description field is empty', 'error');
+        return false;
+    }
+
+    if (cause == "") {
+        showToastMsg('Error', 'Select cause', 'error');
+        return false;
+    }
+
+}
+
 function showToastMsg(heading, text, icon) {
     $.toast({
         heading: heading,
