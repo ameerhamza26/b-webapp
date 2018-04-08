@@ -12,7 +12,7 @@
         <div class="col-md-8 order-md-2">
             <h4 class="mb-3">Edit local media</h4>
 
-            <form class="needs-validation" method="post" action="/localmedia/edit/<%= data[0].ID %>" enctype="multipart/form-data" novalidate="">
+            <form  id="add-media-form" onsubmit="return validateLocalMediaForm('edit')" class="needs-validation" method="post" action="/localmedia/edit/<%= data[0].ID %>" enctype="multipart/form-data" novalidate="">
                 <% if (message.length > 0) { %>
                     <div class="alert alert-success col-sm-12"><%= message %></div>
                 <% } %>

@@ -110,6 +110,49 @@ function validateResourcesForm() {
 
 }
 
+function validateLocalMediaForm(type) {
+    var country =  document.forms["add-media-form"]["countryId"].value;
+    var state =  document.forms["add-media-form"]["stateId"].value;
+    var city =  document.forms["add-media-form"]["cityId"].value;
+    
+    var name =  document.forms["add-media-form"]["name"].value;
+    
+    var contact =  document.forms["add-media-form"]["contact"].value;
+
+    var file = document.forms["add-media-form"]["uploaded_image"];
+    if (country == "") {
+        showToastMsg('Error', 'Select country', 'error');
+        return false;
+    }
+    if (state == "") {
+        showToastMsg('Error', 'Select state', 'error');
+        return false;
+    }
+    if (city == "") {
+        showToastMsg('Error', 'Select city', 'error');
+        return false;
+    }
+
+    if (name == "") {
+        showToastMsg('Error', 'Name field is empty', 'error');
+        return false;
+    }
+    
+    if (contact == "") {
+        showToastMsg('Error', 'Contact field is empty', 'error');
+        return false;
+    }
+
+    if (type!='edit') {   
+        if( file.files.length == 0 ){
+            showToastMsg('Error', 'Logo image is not selected', 'error');
+            return false;
+        }
+    }
+
+
+}
+
 function showToastMsg(heading, text, icon) {
     $.toast({
         heading: heading,
@@ -120,6 +163,7 @@ function showToastMsg(heading, text, icon) {
     })
 }
 
+///////////////////////////////////////validation ends///////////////////////////////////////////
 $(document).ready(function(){
     console.log("in javaascript");
     $('#event-search').on('input', function() {
@@ -206,6 +250,10 @@ $(document).ready(function(){
     $('#state-select')
     .empty();
     $.get("/api/states/"+this.value, function(data, status){
+        $('#state-select').append($('<option>', { 
+            value: '',
+            text : 'Select state' 
+        }));
         $.each(data.data, function (i, item) {
             $('#state-select').append($('<option>', { 
                 value: item.id,
@@ -219,6 +267,10 @@ $(document).ready(function(){
     $('#city-select')
     .empty();
     $.get("/api/cities/"+this.value, function(data, status){
+        $('#city-select').append($('<option>', { 
+            value: '',
+            text : 'Select city' 
+        }));
         $.each(data.data, function (i, item) {
             $('#city-select').append($('<option>', { 
                 value: item.id,
@@ -631,4 +683,16 @@ function getCookie2(cname) {
         }
     }
     return "";
+}
+
+function deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+    window.location = "/login";
 }

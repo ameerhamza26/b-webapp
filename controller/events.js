@@ -21,7 +21,7 @@ exports.create = function (req, res) {
        location = location.replace(/'/g, '\\\'');
        notes = notes.replace(/'/g, '\\\'');
         
-        var sql = "INSERT INTO `Events`(`CauseId`,`Title`,`Location`,`StartDate`, `EndDate`, `Notes`) VALUES ('" + cause_id + "','" + title + "','" + location + "','" + start_date + "','" + end_date + "','" + notes + "')";
+        var sql = "INSERT INTO `events`(`CauseId`,`Title`,`Location`,`StartDate`, `EndDate`, `Notes`) VALUES ('" + cause_id + "','" + title + "','" + location + "','" + start_date + "','" + end_date + "','" + notes + "')";
 
         var query = db.query(sql, function (err, result) {
 
