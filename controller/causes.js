@@ -1,3 +1,8 @@
+var authentication =require('../helpers/authentication');
+var moment = require('moment');
+var mysql = require('promise-mysql');
+var config = require('../config');
+
 
 exports.create = function(req,res) {
     message = '';
@@ -185,5 +190,52 @@ exports.search = function(req,res) {
 exports.getAll = function (req, res) {
 
 
+}
 
+
+exports.delete = function(req,res) {
+    var message = '';
+    var id = req.params.id;
+
+    
+    var sql = "delete from `causes` WHERE `id`='" + id + "'";
+        
+    var final_obj = {};
+    var connection;
+    mysql.createConnection(config.dbConfig).then(function(conn){
+        connection = conn;
+        var result = connection.query(sql);
+   
+        return result;
+    }).then(function(rows){
+        sql = "delete FROM `events` where CauseId =" + id;
+        result = connection.query(sql);
+
+        return result;
+    }).then(function(rows) {
+        sql = "delete FROM `talkingpoints` where CauseId =" + id;
+        result = connection.query(sql);
+
+        return result;
+    }).then(function(rows) {
+        sql = "delete FROM `resources` where CauseId =" + id;
+        result = connection.query(sql);
+
+        return result;
+    }).then(function(rows) {
+        sql = "delete FROM `survey` where CauseId =" + id;
+        result = connection.query(sql);
+
+        return result;
+    }).then(function(rows) {
+        sql = "delete FROM `donationurls` where CauseId =" + id;
+        result = connection.query(sql);
+        connection.end();
+        return result;
+    }).then(function(rows) {
+        res.cookie('message', 'Cause is successfully deleted.')
+        res.cookie('icon', 'success')
+        res.cookie('heading', 'Success')
+        res.redirect('/home');
+    })
 }

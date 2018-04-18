@@ -3,6 +3,11 @@ var surveyId = 0;
 var editQuestionCount = 1;
 var questionHtmlEdit = "";
 
+
+function deleteItem() {
+    bootbox.alert("Hello world!");
+}
+
 ////////////////////validation/////////////
 
 function validateCauseForm(type) {

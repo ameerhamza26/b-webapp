@@ -29,6 +29,7 @@ module.exports = function (app) {
     app.post('/create/cause', causes.create);
     app.get('/create/cause', causes.create);
     app.get('/cause/search', causes.search);
+    app.post('/cause/remove/:id', causes.delete);
 
     app.get('/events', events.get);
     app.get('/create/event', events.create);

@@ -11,7 +11,11 @@
 
         
         <div class="col-md-8 order-md-2">
-          <h4 class="mb-3">Edit Cause</h4>
+          
+            <a href="#" onclick="deleteItem(<%=data[0].ID%>);" class="btn btn-primary mb-2" style="float: right;">Remove this cause</a>
+            <h4 class="mb-3">Edit Cause</h4>
+
+
 
           <form id="add-cause-form" class="needs-validation" method="post" action="/causes/edit/<%=data[0].ID%>" onsubmit="return validateCauseForm('edit')" enctype="multipart/form-data" novalidate="">
               <% if (message.length > 0) { %>
