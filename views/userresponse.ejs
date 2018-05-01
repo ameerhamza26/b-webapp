@@ -1,0 +1,40 @@
+<% include partials/head %>
+<body>
+    <% include partials/header %>
+    
+    <div class="container full-page">
+        <div class="py-5 text-center">
+            <h2 class="lead mt-5">Welcome to Burma cause management</h2>
+        </div>
+
+        <% include partials/sidemenu %>
+
+        <div class="col-md-8 order-md-2">
+            <h4 class="mb-3">User Response</h4>
+           
+            <div class="list-group">
+                <label for="title" class="col-md-3 control-label">Select survey</label>
+                <div class="col-md-9">
+                    <select id="survey-response-select" class="form-control" name="countryId" id="drpdwn">
+                        <option value="">Select survey</option>
+                        <%for(var i=0;i< data.length;i++){ %>
+                            <option value='<%= data[i].ID %>' />
+                            <%=data[i].Title%>
+                                </option>
+                                <% }%>
+                    </select>
+                </div>
+            </div>
+            <div  id="user-response-div"> hello
+
+            </div>
+            
+        </div>
+
+    </div>
+
+    <% include partials/footer %>
+
+</body>
+
+

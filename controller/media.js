@@ -47,7 +47,7 @@ exports.create = function (req, res) {
 
         
     } else {
-        var sql = "SELECT `id`, `name` FROM `countries`";
+        var sql = "SELECT `id`, `name` FROM `countries` order by `id` = 231 desc, `id` asc";
         db.query(sql, function (err, result) {
             if (result.length <= 0)
                 message = "Countries not found!";

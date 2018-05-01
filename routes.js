@@ -58,8 +58,10 @@ module.exports = function (app) {
     app.get('/resources/edit/:id', resources.edit);
     app.post('/resources/edit/:id', resources.edit);
 
+    app.get('/api/download/userresponse/:surveyId', survey.download);
 
     app.get('/survey', survey.get);
+    app.get('/userresponse', survey.getUserResponse);
     app.get('/create/survey', survey.create );
     app.post('/create/survey', survey.create );
 

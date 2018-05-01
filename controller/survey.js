@@ -2,6 +2,7 @@ var authentication =require('../helpers/authentication');
 var mysql = require('promise-mysql');
 var config = require('../config');
 var Promise = require('bluebird');
+var alasql = require('alasql');
 
 
 exports.get =function(req,res) {
@@ -30,6 +31,36 @@ exports.get =function(req,res) {
             }
         } else{
             res.render('survey.ejs',{data:[]})
+        }
+    });
+};
+
+exports.getUserResponse =function(req,res) {
+
+    if (!authentication.authenticate(req)){
+        res.redirect("/login");
+        return;
+    }
+
+    var sql = "";
+    
+    if (req.query.title) {
+        title= req.query.title;
+        sql = "Select * from survey";
+    }
+    else {
+        sql = "Select * from survey";
+    }
+    
+    db.query(sql, function(err, result){
+        if (result) {
+            if(result.length >= 0){
+                res.render('userresponse.ejs',{data: result});
+            } else{
+                res.render('userresponse.ejs',{data:[]})
+            }
+        } else{
+            res.render('userresponse.ejs',{data:[]})
         }
     });
 };
@@ -240,4 +271,28 @@ exports.saveUserResponse = function(req,res) {
     var query = db.query(sql, [values], function (err, result) {
         res.send({status :'success'});
     });
+}
+
+exports.download = function(req,res) {
+    
+    var id = req.params.surveyId;
+    var sql = "select sq.question, sq.answertype, sq.option1, sq.option2, sq.option3, sq.option4, ur.answer as userresponse  \
+    from survey \
+    inner join surveyquestions sq \
+    on survey.ID = sq.SurveyId \
+    inner join userresponsesurvey ur \
+    on ur.Question = sq.ID \
+    where ur.surveyid = " + id;
+    
+    db.query(sql, function(err, result){
+        if (err) {
+            res.send({data:[]})
+        }
+        
+        if(result.length >= 0){
+            res.send({data: result});
+        }else{
+            res.send({data:[]})
+        }
+   });
 }

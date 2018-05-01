@@ -246,6 +246,31 @@ $(document).ready(function(){
         $('.selectpicker').addClass('open');
    });
 
+   $('#survey-response-select').on('change',function() {
+    $.get('/api/download/userresponse/'+this.value, function(data,status) {
+        console.log("data user response",data);
+        if (data.data.length > 0) {
+            console.log("in if")
+            html= "<table> \
+            <thead> \
+                <tr><td>Question</td> \
+                <td>User Response</td> </tr>\
+            </thead> \
+            <tbody> \
+                 ";
+                for (var i =0; i< data.data.length; i++ ) {
+                    html+= "<tr><td>" + data.data[i].question + "<td>";
+                    html+= "<td>" + data.data[i].userresponse + "<td></tr>";
+                }
+                    
+            html+= "    \
+            </tbody> \
+            </table>";
+                console.log(html);
+            $('#user-response-div').append(html)
+        }
+    })
+   });
    $('#country-select').on('change', function() {
     $('#state-select')
     .empty();
