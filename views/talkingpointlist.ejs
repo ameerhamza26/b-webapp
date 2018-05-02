@@ -1,34 +1,86 @@
 <% include partials/head %>
-<body>
-    <% include partials/header %>
-    
-    <div class="container full-page">
-        <div class="py-5 text-center">
-            <h2 class="lead mt-5">Welcome to Burma cause management</h2>
-        </div>
 
-        <% include partials/sidemenu %>
+    <body>
+        <% include partials/header %>
+            <div>
+                <div class="banner">
+                    <div class="container">
+                        <a href="/causes" class="float-left banner-link">
+                            <img src="../../svg/back.svg"> BACK TO CAUSES</a>
+                        <a href="/causeedit" class="float-right banner-link">EDIT CAUSE</a>
+                        <div class="py-5 text-center">
+                            <h2 class="lead">Put an end to Immigration-related Crimes in Burma</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="container full-page">
+                    <% include partials/sidemenu %>
+                        <div class="col-md-8 order-md-2">
+                            <div class="row align-items-center mb-3">
+                                <div class="col-md-8">
+                                    <h4 class="mb-0 txt-red">Talking Points</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="/create/talkingpoints" class="btn btn-primary mb-2m float-right">Create New</a>
+                                </div>
+                            </div>
+                            <input id="talkingpoint-search" class="form-control mr-sm-2 mb-3" type="search" placeholder="Search by causes" aria-label="Search">
+                            <div id="talkingpoint-list-group" class="list-group">
+                                <% for(var i=0; i<data.length; i++) { %>
+                                    <a href="/talkingpoints/edit/<%=data[i].ID%>" class="list-group-item">
+                                        <h4 class="list-group-item-heading">
+                                            <%=data[i].Title%>
+                                        </h4>
 
-        <div class="col-md-8 order-md-2">
-            <h4 class="mb-3">Talking points</h4>
-            <a href="/create/talkingpoints" class="btn btn-primary mb-2">Add new</a>
-            
-            <input id="talkingpoint-search" class="form-control mr-sm-2 mb-2" type="search" placeholder="Search by causes" aria-label="Search">
-            <div id="talkingpoint-list-group" class="list-group">
-                <% for(var i=0; i<data.length; i++) { %>
-                    <a href="/talkingpoints/edit/<%=data[i].ID%>" class="list-group-item">
-                        <h4 class="list-group-item-heading"><%=data[i].Title%></h4>
-                        
-                        <p class="list-group-item-text"><%=data[i].Description%></p>
-                    </a>
-                <% } %>
+                                        <p class="list-group-item-text">
+                                            <%=data[i].Description%>
+                                        </p>
+                                    </a>
+                                    <% } %>
+                            </div>
+                        </div>
+
+                </div>
+                <div class="container">
+                    <!-- CArd -->
+                    <div class="row align-items-start">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <img class="card-img-top" src="http://www.lemesosblog.com/images/images-1/weather/Dark_Soul_Clouds.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title txt-red">Card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                                        content.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <img class="card-img-top" src="http://www.lemesosblog.com/images/images-1/weather/Dark_Soul_Clouds.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title txt-red">Card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                                        content.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <img class="card-img-top" src="http://www.lemesosblog.com/images/images-1/weather/Dark_Soul_Clouds.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title txt-red">Card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                                        content.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card -->
+                </div>
             </div>
-        </div>
+            <% include partials/footer %>
 
-    </div>
-
-    <% include partials/footer %>
-
-</body>
-
-
+    </body>

@@ -1,32 +1,47 @@
 <% include partials/head %>
-<body>
-    <% include partials/header %>
-    
-    <div class="container full-page">
-        <div class="py-5 text-center">
-            <h2 class="lead mt-5">Welcome to Burma cause management</h2>
-        </div>
 
-        <% include partials/sidemenu %>
+    <body>
+        <% include partials/header %>
+            <div>
+                <div class="banner">
+                    <div class="container">
+                        <a href="/causes" class="float-left banner-link">
+                            <img src="../../svg/back.svg"> BACK TO CAUSES</a>
+                        <a href="/causeedit" class="float-right banner-link">EDIT CAUSE</a>
+                        <div class="py-5 text-center">
+                            <h2 class="lead">Put an end to Immigration-related Crimes in Burma</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="container full-page">
 
-        <div class="col-md-8 order-md-2">
-            <h4 class="mb-3">Local Media</h4>
-            <a href="/create/localmedia" class="btn btn-primary mb-2">Add new</a>
+                    <% include partials/sidemenu %>
 
-            <input id="localmedia-search" class="form-control mr-sm-2 mb-2" type="search" placeholder="Search by city, state, country" aria-label="Search">
-            <div id="event-list-group" class="list-group">
-                <% for(var i=0; i<data.length; i++) { %>
-                    <a href="/localmedia/edit/<%=data[i].ID%>" class="list-group-item">
-                        <h4 class="list-group-item-heading"><%=data[i].Name%></h4>
-                    </a>
-                <% } %>
+                        <div class="col-md-8 order-md-2">
+                            <div class="row align-items-center mb-3">
+                                <div class="col-md-8">
+                                    <h4 class="mb-0 txt-red">Local Media</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="/create/localmedia" class="btn btn-primary mb-2m float-right">Create New</a>
+                                </div>
+                            </div>
+
+                            <input id="localmedia-search" class="form-control mr-sm-2 mb-2" type="search" placeholder="Search by city, state, country"
+                                aria-label="Search">
+                            <div id="event-list-group" class="list-group">
+                                <% for(var i=0; i<data.length; i++) { %>
+                                    <a href="/localmedia/edit/<%=data[i].ID%>" class="list-group-item">
+                                        <h4 class="list-group-item-heading">
+                                            <%=data[i].Name%>
+                                        </h4>
+                                    </a>
+                                    <% } %>
+                            </div>
+                        </div>
+
+                </div>
             </div>
-        </div>
+            <% include partials/footer %>
 
-    </div>
-
-    <% include partials/footer %>
-
-</body>
-
-
+    </body>
