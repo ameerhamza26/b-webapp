@@ -167,11 +167,11 @@ function showToastMsg(heading, text, icon) {
 $(document).ready(function(){
     console.log("in javaascript");
     $('#event-search').on('input', function() {
-        
-            $.get("/cause/search?title=" + $('#event-search').val(), function(data, status){
+
+            $.get("/cause/search/"+ $("#selectedCause").val()+"?title=" + $('#event-search').val(), function(data, status){
                 var html="";
                 for (var i = 0; i<data.data.length;i++) {
-                    html+= '<a href="/events/edit/'+data.data[i].ID+'" class="list-group-item">'+
+                    html+= '<a href="/events/edit/'+data.data[i].ID+'/'+$("#selectedCause").val()+'" class="list-group-item">'+
                     '<h4 class="list-group-item-heading">'+ data.data[i].Title + '</h4>'+
                     '<span>Cause: </span> <span>' + data.data[i].CauseTitle+ '</span>' +
                     '</a>'
@@ -183,10 +183,10 @@ $(document).ready(function(){
 
     $('#talkingpoint-search').on('input', function() {
         
-            $.get("/api/cause/search/talkinpoint?title=" + $('#talkingpoint-search').val(), function(data, status){
+            $.get("/api/cause/search/talkinpoint/"+ $("#selectedCause").val()+"?title=" + $('#talkingpoint-search').val(), function(data, status){
                 var html="";
                 for (var i = 0; i<data.data.length;i++) {
-                    html+= '<a href="/talkingpoints/edit/'+data.data[i].ID+'" class="list-group-item">'+
+                    html+= '<a href="/talkingpoints/edit/'+data.data[i].ID+'/'+$("#selectedCause").val()+'" class="list-group-item">'+
                     '<h4 class="list-group-item-heading">'+ data.data[i].Title + '</h4>'+
                     '<p class="list-group-item-text">'+ data.data[i].Description+'</p>' + 
                     '</a>'
@@ -198,10 +198,10 @@ $(document).ready(function(){
 
     $('#resources-search').on('input', function() {
         
-            $.get("/api/cause/search/resources?title=" + $('#resources-search').val(), function(data, status){
+            $.get("/api/cause/search/resources/"+ $("#selectedCause").val()+"?title=" + $('#resources-search').val(), function(data, status){
                 var html="";
                 for (var i = 0; i<data.data.length;i++) {
-                    html+= '<a href="/resources/edit/'+data.data[i].ID+'" class="list-group-item">'+
+                    html+= '<a href="/resources/edit/'+data.data[i].ID+'/'+$("#selectedCause").val()+'" class="list-group-item">'+
                     '<h4 class="list-group-item-heading">'+ data.data[i].Title + '</h4>'+
                     '<p class="list-group-item-text">'+ data.data[i].Description+'</p>' + 
                     '</a>'
@@ -213,10 +213,10 @@ $(document).ready(function(){
 
     $('#localmedia-search').on('input', function() {
         
-        $.get("/api/localmedia/search?text=" + $('#localmedia-search').val(), function(data, status){
+        $.get("/api/localmedia/search/"+ $("#selectedCause").val()+"?text=" + $('#localmedia-search').val(), function(data, status){
             var html="";
             for (var i = 0; i<data.data.length;i++) {
-                html+= '<a href="/localmedia/edit/'+data.data[i].ID+'" class="list-group-item">'+
+                html+= '<a href="/localmedia/edit/'+data.data[i].ID+'/'+$("#selectedCause").val()+'" class="list-group-item">'+
                 '<h4 class="list-group-item-heading">'+ data.data[i].Name + '</h4>'+
                 '</a>'
             }
@@ -227,10 +227,10 @@ $(document).ready(function(){
 
     $('#survey-search').on('input', function() {
         
-        $.get("/api/survey/search?text=" + $('#survey-search').val(), function(data, status){
+        $.get("/api/survey/search/"+ $("#selectedCause").val()+"?text=" + $('#survey-search').val(), function(data, status){
             var html="";
             for (var i = 0; i<data.data.length;i++) {
-                html+= '<a href="/survey/edit/'+data.data[i].ID+'" class="list-group-item">'+
+                html+= '<a href="/survey/edit/'+data.data[i].ID+'/'+$("#selectedCause").val()+'" class="list-group-item">'+
                 '<h4 class="list-group-item-heading">'+ data.data[i].Title + '</h4>'+
                 '</a>'
             }
@@ -438,7 +438,7 @@ $.get("/files/editquestiontemplate", function( my_var ) {
 
 
     $('#survey-submit').click(function() {
-        $.post('/create/survey', 
+        $.post('/create/survey/' +$('#selectedCause').val() , 
         { title: $('#survey-title-text').val(),
           causeId: $('#survey-cause-id').val()  
         }, function(data,status) {
@@ -495,7 +495,7 @@ $.get("/files/editquestiontemplate", function( my_var ) {
     }
 
     $('#survey-submit-edit').click(function() {
-        $.post('/survey/edit/'+surveyId, 
+        $.post('/survey/edit/'+surveyId+'/'+$('#selectedCause').val(), 
         { title: $('#survey-title-text').val(),
           causeId: $('#survey-cause-id').val()  
         }, function(data,status) {

@@ -4,34 +4,36 @@
         <% include partials/header %>
             <div>
                 <div class="banner">
-                    <div class="container">
-                        <a href="/causes" class="float-left banner-link">
-                            <img src="../../svg/back.svg"> BACK TO CAUSES</a>
-                        <a href="/causeedit" class="float-right banner-link">EDIT CAUSE</a>
-                        <div class="py-5 text-center">
-                            <h2 class="lead">Put an end to Immigration-related Crimes in Burma</h2>
+                        <div class="container">
+                            <a href="/home" class="float-left banner-link">
+                                <img src="../../svg/back.svg"> BACK TO CAUSES</a>
+                            <a href="/causeedit" class="float-right banner-link">EDIT CAUSE</a>
+                            <div class="py-5 text-center">
+                                <h2 class="lead"><%=causes[0].Title%></h2>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="container full-page">
-
+                    <div class="container full-page">
+                    <% var selectedCauseId= causes[0].ID; %>
                     <% include partials/sidemenu %>
 
+                    
+                    <input id="selectedCause" type="hidden" value="<%=causes[0].ID%>"/>
                         <div class="col-md-8 order-md-2">
                             <div class="row align-items-center mb-3">
                                 <div class="col-md-8">
                                     <h4 class="mb-0 txt-red">Surveys</h4>
                                 </div>
                                 <div class="col-md-4">
-                                    <a href="/create/survey" class="btn btn-primary mb-2m float-right">Create New</a>
+                                    <a href="/create/survey/<%=causes[0].ID%>" class="btn btn-primary mb-2m float-right">Create New</a>
                                 </div>
                             </div>
 
-                            <input id="survey-search" class="form-control mr-sm-2 mb-3" type="search" placeholder="Search by Survey title or Cause title"
+                            <input id="survey-search" class="form-control mr-sm-2 mb-3" type="search" placeholder="Search by Survey title"
                                 aria-label="Search">
                             <div id="survey-list-group" class="list-group">
                                 <% for(var i=0; i<data.length; i++) { %>
-                                    <a href="/survey/edit/<%=data[i].ID%>" class="list-group-item">
+                                    <a href="/survey/edit/<%=data[i].ID%>/<%=causes[0].ID%>" class="list-group-item">
                                         <h4 class="list-group-item-heading">
                                             <%=data[i].Title%>
                                         </h4>

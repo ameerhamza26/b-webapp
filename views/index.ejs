@@ -3,46 +3,27 @@
     <body>
         <% include partials/header %>
             <div>
-                <div class="banner">
-                    <div class="container">
-                        <a href="/causes" class="float-left banner-link">
-                            <img src="../../svg/back.svg"> BACK TO CAUSES</a>
-                        <a href="/causeedit" class="float-right banner-link">EDIT CAUSE</a>
-                        <div class="py-5 text-center">
-                            <h2 class="lead">Put an end to Immigration-related Crimes in Burma</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="container full-page">
-
-                    <% include partials/sidemenu %>
-
-                        <div class="col-md-8 order-md-2">
-                            <div class="row align-items-center mb-3">
-                                <div class="col-md-8">
-                                    <h4 class="mb-0 txt-red">Burma Causes</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <a href="/create/cause" class="btn btn-primary mb-2m float-right">Create New</a>
-                                </div>
+                    <div class="container  full-page">
+                            <!-- CArd -->
+                            <div class="row align-items-start">
+                                    <% for(var i=0; i<data.length; i++) { %>
+                                            <div class="col-md-4">
+                                                    <div class="card">
+                                                        <img class="card-img-top" src="/images/upload_images/<%=data[i].Image%>" alt="<%=data[i].Title%>">
+                                                        <div class="card-body">
+                                                           <a href="/events/<%=data[i].ID%>"><h5 class="card-title txt-red"> <%=data[i].Title%></h5></a> 
+                                                            <p class="card-text">
+                                                                    <%=data[i].Description%>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    <% } %>  
                             </div>
-                            <div class="list-group">
-                                <% for(var i=0; i<data.length; i++) { %>
-                                    <a href="/causes/edit/<%=data[i].ID%>" class="list-group-item">
-                                        <h4 class="list-group-item-heading">
-                                            <%=data[i].Title%>
-                                        </h4>
-
-                                        <p class="list-group-item-text">
-                                            <%=data[i].Description%>
-                                        </p>
-                                        <img src="/images/upload_images/<%=data[i].Image%>" class="img-thumbnail" alt="<%=data[i].Title%>">
-                                    </a>
-                                    <% } %>
-                            </div>
+                            <!-- Card -->
                         </div>
 
-                </div>
+
             </div>
             <% include partials/footer %>
 

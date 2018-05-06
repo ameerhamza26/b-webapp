@@ -4,18 +4,21 @@
         <% include partials/header %>
             <div>
                 <div class="banner">
-                    <div class="container">
-                        <a href="/causes" class="float-left banner-link">
-                            <img src="../../svg/back.svg"> BACK TO CAUSES</a>
-                        <a href="/causeedit" class="float-right banner-link">EDIT CAUSE</a>
-                        <div class="py-5 text-center">
-                            <h2 class="lead">Put an end to Immigration-related Crimes in Burma</h2>
+                        <div class="container">
+                            <a href="/home" class="float-left banner-link">
+                                <img src="../../svg/back.svg"> BACK TO CAUSES</a>
+                            <a href="/causeedit" class="float-right banner-link">EDIT CAUSE</a>
+                            <div class="py-5 text-center">
+                                <h2 class="lead"><%=causes[0].Title%></h2>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="container full-page">
-
+                    <div class="container full-page">
+                    <% var selectedCauseId= causes[0].ID; %>
                     <% include partials/sidemenu %>
+
+                    
+                    <input id="selectedCause" type="hidden" value="<%=causes[0].ID%>"/>
 
                         <div class="col-md-8 order-md-2">
                             <h4 class="mb-3">Edit Survey</h4>

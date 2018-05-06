@@ -5,6 +5,7 @@ var config = require('../config');
 
 exports.create = function (req, res) {
     message = '';
+    var causeId = req.params.causeId; 
     if (req.method == "POST") {
         console.log('Post');
 
@@ -59,7 +60,7 @@ exports.create = function (req, res) {
             res.cookie('icon', 'success')
             res.cookie('heading', 'Success')
 
-            res.redirect('/resources');
+            res.redirect('/resources/'+causeId);
         }).catch(function(err) {
             console.log(err);
            // done(err);
@@ -89,12 +90,12 @@ exports.create = function (req, res) {
         //         });
         //     });
     } else {
-        var sql = "SELECT `ID`, `Title` FROM `causes`";
+        var sql = "SELECT * FROM `causes` where ID = " + causeId;
         db.query(sql, function (err, result) {
             if (result.length <= 0)
                 message = "Causes not found!";
 
-            res.render('resources.ejs', { data: result, message: message });
+            res.render('resources.ejs', { causes: result, message: message });
         });
     }
 }
@@ -105,6 +106,7 @@ exports.edit = function (req, res) {
     var message = '';
     var id = req.params.id;
     var connection;
+    var causeId = req.params.causeId; 
 
     if (req.method == 'POST' ) {
         var resourceUrls;
@@ -203,7 +205,7 @@ exports.edit = function (req, res) {
             res.cookie('message', 'Resources is successfully updated')
             res.cookie('icon', 'success')
             res.cookie('heading', 'Success')
-            res.redirect('/resources');
+            res.redirect('/resources/'+causeId);
         }).catch(function(err) {
             console.log(err);
            // done(err);
@@ -223,7 +225,7 @@ exports.edit = function (req, res) {
         }).then(function(rows){
             final_obj.data = rows;
             
-            sql = "SELECT `ID`, `Title` FROM `causes`";
+            sql = "SELECT *  FROM `causes` where ID = " + causeId;
             result = connection.query(sql);
             return result;
         }).then(function(rows){
@@ -274,28 +276,40 @@ exports.list = function(req,res) {
         return;
     }
 
-    var sql = "Select * From resources";
-    db.query(sql, function(err, result){
-        if(result.length >= 0){
-            res.render('resourceslist',{data: result});
-        }else{
-            res.render('resourceslist',{data:[]})
-        }
-
-    });
+    var causeId = req.params.causeId; 
+    var sql = "Select * From resources where causeId = " + causeId;
+    var final_obj = {};
+    var connection;
+    mysql.createConnection(config.dbConfig).then(function(conn){
+        connection = conn;
+        var result = connection.query(sql);
+   
+        return result;
+    }).then(function(rows){
+        final_obj.data = rows;
+        sql = "SELECT * FROM `causes` where ID =" + causeId;
+        result = connection.query(sql);
+        // Logs out a list of hobbits
+        connection.end();
+        return result;
+    }).then(function(rows) {
+        final_obj.causes = rows;
+        res.render('resourceslist',final_obj);
+    })
 }
 
 
 exports.search = function(req,res) {
     var message = '';
     var title = req.query.title;
-    
+    var causeId = req.params.causeId; 
+
     var sql = "select resources.* from resources \
     inner join \
     causes \
     on resources.CauseId = causes.ID \
     where resources.Title like '%"+ title+"%' \
-    or causes.Title like '%"+ title +"%' "; 
+    and causes.ID = "+ causeId; 
 
     db.query(sql, function(err, result){
         if (err) {

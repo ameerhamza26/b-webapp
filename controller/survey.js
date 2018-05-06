@@ -12,26 +12,33 @@ exports.get =function(req,res) {
     }
 
     var sql = "";
-    
+    var causeId= req.params.causeId;
     if (req.query.title) {
         title= req.query.title;
-        sql = "Select * from survey";
+        sql = "Select * from survey where causeId = " + causeId;
     }
     else {
-        sql = "Select * from survey";
+        sql = "Select * from survey where causeId = " + causeId;
     }
+    var final_obj = {};
+    var connection;
+    mysql.createConnection(config.dbConfig).then(function(conn){
+        connection = conn;
+        var result = connection.query(sql);
+   
+        return result;
+    }).then(function(rows){
+        final_obj.data = rows;
+        sql = "SELECT * FROM `causes` where ID =" + causeId;
+        result = connection.query(sql);
+        // Logs out a list of hobbits
+        connection.end();
+        return result;
+    }).then(function(rows) {
+        final_obj.causes = rows;
+        res.render('survey',final_obj);
+    })
     
-    db.query(sql, function(err, result){
-        if (result) {
-            if(result.length >= 0){
-                res.render('survey.ejs',{data: result});
-            } else{
-                res.render('survey.ejs',{data:[]})
-            }
-        } else{
-            res.render('survey.ejs',{data:[]})
-        }
-    });
 };
 
 exports.createQuestions = function(req,res) {
@@ -69,6 +76,7 @@ exports.createQuestions = function(req,res) {
 
 exports.create = function (req, res) {
     message = '';
+    var causeId = req.params.causeId;
     if (req.method == "POST") {
         
         var post = req.body;
@@ -87,12 +95,12 @@ exports.create = function (req, res) {
             res.send({surveyId :result.insertId});
         });
     } else {
-        var sql = "SELECT `ID`, `Title` FROM `causes`";
+        var sql = "SELECT * FROM `causes` where ID = " + causeId;
         db.query(sql, function (err, result) {
             if (result.length <= 0)
                 message = "Causes not found!";
     
-            res.render('createsurvey.ejs', { data: result, message: message });
+            res.render('createsurvey.ejs', { causes: result, message: message });
         });
     }
 };
@@ -101,24 +109,24 @@ exports.create = function (req, res) {
 exports.search = function(req,res) {
     var message = '';
     var text = req.query.text;
-    
+    var causeId = req.params.causeId;
+
     var sql = "select survey.* from survey \
      inner JOIN causes \
     on causes.ID = survey.CauseId \
-    where causes.Title like '%" + text + "%' \
-    or survey.Title like '%"+ text+"%' ";
+    where survey.Title like '%"+ text+"%' \
+    and causes.ID = " + causeId;
     
-    db.query(sql, function(err, result){
-        if (err) {
-            res.send({data:[]})
-        }
-        
-        if(result.length >= 0){
-            res.send({data: result});
-        }else{
-            res.send({data:[]})
-        }
-   });
+    var connection;
+    mysql.createConnection(config.dbConfig).then(function(conn){
+        connection = conn;
+        var result = connection.query(sql);
+        connection.end();
+        return result;
+    }).then(function(rows){
+        res.send({data:rows});
+    })
+
 }
 
 exports.editQuestion = function(req,res) {
@@ -155,6 +163,7 @@ exports.editQuestion = function(req,res) {
 exports.edit = function(req, res){
 	var message = '';
     var id = req.params.id;
+    var causeId = req.params.causeId;
     var connection;
     if (req.method == 'POST') {
         var post = req.body;
@@ -184,7 +193,7 @@ exports.edit = function(req, res){
         }).then(function(rows){
             final_obj.data = rows;
             
-            sql = "SELECT `ID`, `Title` FROM `causes`";
+            sql = "SELECT * FROM `causes` where ID = " + causeId;
             result = connection.query(sql);
             return result;
         }).then(function(rows){
