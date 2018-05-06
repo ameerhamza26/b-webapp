@@ -1,3 +1,5 @@
+var config = require('../config');
+var mysql = require('promise-mysql');
 
 exports.create = function(req,res) {
     message = '';
@@ -128,12 +130,12 @@ exports.edit = function(req, res){
 
     }
     else {
-        var sql="SELECT * FROM `causes` WHERE `id`='"+id+"'"; 
+        var sql="SELECT * FROM `causes` WHERE ID ="+id; 
         db.query(sql, function(err, result){
           if(result.length <= 0)
           message = "Cause not found!";
           
-          res.render('causeedit.ejs',{data:result, message: message});
+          res.render('causeedit.ejs',{causes:result, message: message});
        });
     }
 };
@@ -167,19 +169,21 @@ exports.getDonationUrlsByCause = function(req,res) {
 exports.search = function(req,res) {
     var message = '';
     var title = req.query.title;
+    var causeId = req.params.causeId;
+
+    var sql = "Select `events`.*, causes.Title as CauseTitle from \
+    `events` INNER JOIN causes on `events`.CauseId = causes.ID where  \
+    `events`.Title like '%" + title+"%' and causes.ID =" + causeId;
     
-    var sql = "Select `events`.*, causes.Title as CauseTitle from `events` INNER JOIN causes on `events`.CauseId = causes.ID where  causes.Title like '%" + title+"%'";
-    db.query(sql, function(err, result){
-        if (err) {
-            res.send({data:[]})
-        }
-        
-        if(result.length >= 0){
-            res.send({data: result});
-        }else{
-            res.send({data:[]})
-        }
-   });
+    var connection;
+    mysql.createConnection(config.dbConfig).then(function(conn){
+        connection = conn;
+        var result = connection.query(sql);
+        connection.end();
+        return result;
+    }).then(function(rows){
+        res.send({data:rows});
+    })
 }
 
 exports.getAll = function (req, res) {

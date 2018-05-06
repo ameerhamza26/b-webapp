@@ -1,33 +1,50 @@
 <% include partials/head %>
-<body>
-    <% include partials/header %>
-    
-    <div class="container full-page">
-        <div class="py-5 text-center">
-            <h2 class="lead mt-5">Welcome to Burma cause management</h2>
-        </div>
 
-        <% include partials/sidemenu %>
+    <body>
+        <% include partials/header %>
+            <div>
+                <div class="banner">
+                    <div class="container">
+                        <a href="/home" class="float-left banner-link">
+                            <img src="../../svg/back.svg"> BACK TO CAUSES</a>
+                        <a href="/causes/edit/<%=causes[0].ID%>" class="float-right banner-link">EDIT CAUSE</a>
+                        <div class="py-5 text-center">
+                            <h2 class="lead"><%=causes[0].Title%></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="container full-page">
+                    <% var selectedCauseId= causes[0].ID; %>
+                    <% include partials/sidemenu %>
+                    <input id="selectedCause" type="hidden" value="<%=causes[0].ID%>"/>
+                        <div class="col-md-8 order-md-2">
+                            <div class="row align-items-center mb-3">
+                                <div class="col-md-8">
+                                    <h4 class="mb-0 txt-red">Events</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="/create/event/<%=causes[0].ID%>" class="btn btn-primary mb-2m float-right">Create New</a>
+                                </div>
+                            </div>
 
-        <div class="col-md-8 order-md-2">
-            <h4 class="mb-3">Events</h4>
-            <a href="/create/event" class="btn btn-primary mb-2">Add new</a>
+                            <input id="event-search" class="form-control mr-sm-2 mb-3" type="search" placeholder="Search by title" aria-label="Search">
+                            <div id="event-list-group" class="list-group">
+                                <% for(var i=0; i<data.length; i++) { %>
+                                    <a href="/events/edit/<%=data[i].ID%>/<%=causes[0].ID%>" class="list-group-item">
+                                        <h4 class="list-group-item-heading">
+                                            <%=data[i].Title%>
+                                        </h4>
+                                        <span>Cause: </span>
+                                        <span>
+                                            <%=data[i].CauseTitle%>
+                                        </span>
+                                    </a>
+                                    <% } %>
+                            </div>
+                        </div>
 
-            <input id="event-search" class="form-control mr-sm-2 mb-2" type="search" placeholder="Search by causes" aria-label="Search">
-            <div id="event-list-group" class="list-group">
-                <% for(var i=0; i<data.length; i++) { %>
-                    <a href="/events/edit/<%=data[i].ID%>" class="list-group-item">
-                        <h4 class="list-group-item-heading"><%=data[i].Title%></h4>
-                        <span>Cause: </span> <span><%=data[i].CauseTitle%></span>
-                    </a>
-                <% } %>
+                </div>
             </div>
-        </div>
+            <% include partials/footer %>
 
-    </div>
-
-    <% include partials/footer %>
-
-</body>
-
-
+    </body>

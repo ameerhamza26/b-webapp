@@ -3,9 +3,9 @@ exports.fcmcloud = {
 }
 
 exports.dbConfig = {
-    host     : 'localhost',
+    host     : '52.179.86.183',
     port     : '3306',
-    user     : 'root',
-    password : '',
+    user     : 'burmauser',
+    password : 'burmaQA##',
     database : 'burmacausemanagement'
 }

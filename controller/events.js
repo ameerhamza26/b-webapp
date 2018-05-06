@@ -6,6 +6,7 @@ var config = require('../config');
 
 exports.create = function (req, res) {
     message = '';
+    var causeId = req.params.causeId;
     if (req.method == "POST") {
         
         var post = req.body;
@@ -24,28 +25,28 @@ exports.create = function (req, res) {
         var sql = "INSERT INTO `events`(`CauseId`,`Title`,`Location`,`StartDate`, `EndDate`, `Notes`) VALUES ('" + cause_id + "','" + title + "','" + location + "','" + start_date + "','" + end_date + "','" + notes + "')";
 
         var query = db.query(sql, function (err, result) {
-
+            console.log("err",err);
             if (err) {
                 res.cookie('message', 'Error in adding event. try again.')
                 res.cookie('icon', 'error')
                 res.cookie('heading', 'Error')
-                res.redirect('/events');
+                res.redirect('/events/'+causeId);
             }
             else {
                 res.cookie('message', 'Event is successfully created')
                 res.cookie('icon', 'success')
                 res.cookie('heading', 'Success')
-                res.redirect('/events');
+                res.redirect('/events/'+causeId);
             }
 
         });
     } else {
-        var sql = "SELECT `ID`, `Title` FROM `causes`";
+        var sql = "SELECT * FROM `causes` where ID = " + causeId;
         db.query(sql, function (err, result) {
             if (result.length <= 0)
                 message = "Causes not found!";
     
-            res.render('events.ejs', { data: result, message: message });
+            res.render('events.ejs', { causes: result, message: message });
         });
     }
 }
@@ -55,6 +56,7 @@ exports.create = function (req, res) {
 exports.edit = function (req, res) {
     var message = '';
     var id = req.params.id;
+    var causeId = req.params.causeId;
     if (req.method == "POST") {
         var post = req.body;
         var cause_id = post.cause;
@@ -76,13 +78,13 @@ exports.edit = function (req, res) {
                 res.cookie('message', 'Error in updating event. Please try again.')
                 res.cookie('icon', 'error')
                 res.cookie('heading', 'Error')
-                res.redirect('/events');
+                res.redirect('/events/'+causeId);
             }
             else {
                 res.cookie('message', 'Event is successfully updated')
                 res.cookie('icon', 'success')
                 res.cookie('heading', 'Success')
-                res.redirect('/events');
+                res.redirect('/events/' +causeId);
             }
         });
     }
@@ -98,7 +100,7 @@ exports.edit = function (req, res) {
                 return result;
             }).then(function(rows){
                 final_obj.data = rows;
-                sql = "SELECT `ID`, `Title` FROM `causes`";
+                sql = "SELECT * FROM `causes` where id =" + causeId;
                 result = connection.query(sql);
                 // Logs out a list of hobbits
                 connection.end();
@@ -122,27 +124,34 @@ exports.get =function(req,res) {
     }
 
     var sql = "";
-    
+    var causeId = req.params.causeId;
+
     if (req.query.title) {
         title= req.query.title;
-        sql = "Select `events`.*, causes.Title as CauseTitle from `events` INNER JOIN causes on `events`.CauseId = causes.ID where CauseTitle like '%" + title+"%'";
+        sql = "Select `events`.*, causes.Title as CauseTitle from `events` INNER JOIN causes on `events`.CauseId = causes.ID where CauseTitle like '%" + title+"%' and `events`.CauseId = " + causeId ;
     }
     else {
-        sql = "Select `events`.*, causes.Title as CauseTitle from `events` INNER JOIN causes on `events`.CauseId = causes.ID";
+        sql = "Select `events`.*, causes.Title as CauseTitle from `events` INNER JOIN causes on `events`.CauseId = causes.ID  where  `events`.CauseId = " + causeId;
     }
-    
-    db.query(sql, function(err, result){
-        if (result) {
-            if(result.length >= 0){
-                res.render('eventslist',{data: result});
-            } else{
-                res.render('eventslist',{data:[]})
-            }
-        } else{
-            res.render('eventslist',{data:[]})
-        }
-
-    });
+            
+    var final_obj = {};
+    var connection;
+    mysql.createConnection(config.dbConfig).then(function(conn){
+        connection = conn;
+        var result = connection.query(sql);
+   
+        return result;
+    }).then(function(rows){
+        final_obj.data = rows;
+        sql = "SELECT * FROM `causes` where ID =" + causeId;
+        result = connection.query(sql);
+        // Logs out a list of hobbits
+        connection.end();
+        return result;
+    }).then(function(rows) {
+        final_obj.causes = rows;
+        res.render('eventslist',final_obj);
+    })
 }
 
 exports.getByCause = function(req,res) {

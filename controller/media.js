@@ -5,6 +5,7 @@ var config = require('../config');
 
 exports.create = function (req, res) {
     message = '';
+    var causeId = req.params.causeId;
     if (req.method == "POST") {
         
         var post = req.body;
@@ -35,7 +36,7 @@ exports.create = function (req, res) {
                         res.cookie('icon', 'success')
                         res.cookie('heading', 'Success')
 
-                        res.redirect('/localmedia');
+                        res.redirect('/localmedia/'+causeId);
                     });
 
                 });
@@ -48,12 +49,24 @@ exports.create = function (req, res) {
         
     } else {
         var sql = "SELECT `id`, `name` FROM `countries` order by `id` = 231 desc, `id` asc";
-        db.query(sql, function (err, result) {
-            if (result.length <= 0)
-                message = "Countries not found!";
-    
-            res.render('addlocalmedia.ejs', { data: result, message: message });
-        });
+        var final_obj = {};
+        var connection;
+        mysql.createConnection(config.dbConfig).then(function(conn){
+            connection = conn;
+            var result = connection.query(sql);
+       
+            return result;
+        }).then(function(rows){
+            final_obj.data = rows;
+            sql = "SELECT * FROM `causes` where ID =" + causeId;
+            result = connection.query(sql);
+            // Logs out a list of hobbits
+            connection.end();
+            return result;
+        }).then(function(rows) {
+            final_obj.causes = rows;
+            res.render('addlocalmedia',final_obj);
+        })
     }
 }
 
@@ -61,6 +74,7 @@ exports.create = function (req, res) {
 exports.edit = function (req, res) {
     var message = '';
     var id = req.params.id;
+    var causeId = req.params.causeId;
     if (req.method == 'POST') {
         var post = req.body;
         var name = post.name;
@@ -156,7 +170,14 @@ exports.edit = function (req, res) {
             return result;
         }).then(function(rows) {
             final_obj.cities = rows;
-            
+            sql = "SELECT * FROM causes where ID =  " + causeId;
+            result = connection.query(sql);
+            // Logs out a list of hobbits
+            //connection.end();
+            return result;
+
+        }).then(function(rows) {
+            final_obj.causes = rows;
             final_obj.message = message;
             // Logs out a list of hobbits
             connection.end();
@@ -177,6 +198,7 @@ exports.get =function(req,res) {
     }
 
     var sql = "";
+    var causeId = req.params.causeId;
     
     if (req.query.title) {
         title= req.query.title;
@@ -186,18 +208,25 @@ exports.get =function(req,res) {
         sql = "Select * from localmedia";
     }
     
-    db.query(sql, function(err, result){
-        if (result) {
-            if(result.length >= 0){
-                res.render('localmedia.ejs',{data: result});
-            } else{
-                res.render('localmedia.ejs',{data:[]})
-            }
-        } else{
-            res.render('localmedia.ejs',{data:[]})
-        }
+    var final_obj = {};
+    var connection;
+    mysql.createConnection(config.dbConfig).then(function(conn){
+        connection = conn;
+        var result = connection.query(sql);
+   
+        return result;
+    }).then(function(rows){
+        final_obj.data = rows;
+        sql = "SELECT * FROM `causes` where ID =" + causeId;
+        result = connection.query(sql);
+        // Logs out a list of hobbits
+        connection.end();
+        return result;
+    }).then(function(rows) {
+        final_obj.causes = rows;
+        res.render('localmedia',final_obj);
+    })
 
-    });
 }
 
 
@@ -205,7 +234,7 @@ exports.get =function(req,res) {
 exports.search = function(req,res) {
     var message = '';
     var text = req.query.text;
-    
+    var causeId = req.params.causeId;
     var sql = "select localmedia.*, cities.`name` as CityName, states.`name` as StateName, countries.`name` as CountryName  from countries \
     inner join \
     states \
