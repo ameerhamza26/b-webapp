@@ -251,9 +251,9 @@ $(document).ready(function(){
         $.get('/api/download/userresponse/'+this.value, function(data,status) {
             console.log("data user response",data);
             if (data.data.length > 0) {
-                html= "<table> \
-                    <tr><th>Question</th> \
-                    <th>User Response</th> </tr>\
+                html= "<table class='table table-striped mx-3 my-3'> \
+                    <thead class='thead-dark'><tr><th>Question</th> \
+                    <th>User Response</th> </tr></thead>\
                      ";
                     for (var i =0; i< data.data.length; i++ ) {
                         html+= "<tr><td>" + data.data[i].question + "</td>";
