@@ -24,7 +24,7 @@
                                     <h4 class="mb-0 txt-red">Add Donation URL</h4>
                                 </div>
                             </div>
-                            <form class="form-horizontal" role="form" method="post" action="/create/donationurls">
+                            <form class="form-horizontal" role="form" method="post" action="/create/donationurls/<%= causes[0].ID %>">
                                 <% if (message.length > 0) { %>
                                     <div class="alert alert-success col-sm-12">
                                         <%= message %>
