@@ -143,6 +143,7 @@ exports.edit = function(req, res){
 
 exports.list = function(req,res){
     var sql = "Select * From causes order by ID desc";
+    console.log("Sql", sql);
     db.query(sql, function(err, result){
         if(result.length >= 0){
             res.send({data: result});
