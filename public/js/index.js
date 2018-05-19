@@ -248,6 +248,8 @@ $(document).ready(function(){
 
    $('#survey-response-select').on('change',function() {
        if (this.value) {
+
+        var surveyId = this.value;
         $.get('/api/download/userresponse/'+this.value, function(data,status) {
             console.log("data user response",data);
             if (data.data.length > 0) {
@@ -272,8 +274,8 @@ $(document).ready(function(){
                         }
                     }
                 }
-                
-                html= "<table class='table table-striped mx-3 my-3'> \
+                html = "<a href='/api/downloadexcel/"+surveyId+"'>Download Excel</a>";
+                 html += "<table id='table-downloadable' class='table table-striped mx-3 my-3'> \
                     <thead class='thead-dark'><tr> ";
                     for (var i =0; i< headings.length;i++) {
                         html += "<th>" + headings[i]+ "</th>"
@@ -294,6 +296,7 @@ $(document).ready(function(){
                         
                 html+= "    \
                 </table>";
+                console.log("html ",html);
                 $('#user-response-div').html(html)
             }
             else {
@@ -306,6 +309,8 @@ $(document).ready(function(){
        }
 
    });
+
+
    $('#country-select').on('change', function() {
     $('#state-select')
     .empty();

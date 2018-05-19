@@ -3,7 +3,8 @@ var mysql = require('promise-mysql');
 var config = require('../config');
 var Promise = require('bluebird');
 var alasql = require('alasql');
-
+let { json2excel, excel2json } = require('js2excel');
+var Excel = require('exceljs');
 
 exports.get =function(req,res) {
 
@@ -314,4 +315,95 @@ exports.download = function(req,res) {
             res.send({data:[]})
         }
    });
+}
+
+exports.downloadExcel = function(req,res) {
+
+    var id = req.params.surveyId;
+    var sql = "select survey.Title, sq.question, sq.answertype, sq.option1, sq.option2, \
+    sq.option3, sq.option4, ur.answer as userresponse  \
+    from survey \
+    inner join surveyquestions sq \
+    on survey.ID = sq.SurveyId \
+    inner join userresponsesurvey ur \
+    on ur.Question = sq.ID \
+    where ur.surveyid = " + id;
+    
+    db.query(sql, function(err, result){
+        // if (err) {
+        //     res.send({data:[]})
+        // }
+        
+        if(result.length >= 0){
+
+            const workbook = new Excel.stream.xlsx.WorkbookWriter({});
+            workbook.created = new Date();
+            workbook.modified = new Date();
+            var sheet = workbook.addWorksheet(result[0].Title);
+            var filename = result[0].Title + ".xlsx";
+                
+        
+            res.writeHead(200, {
+                'Content-Disposition': `attachment;filename=${filename}`,
+                'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+              });
+            workbook.stream.pipe(res);
+            
+            
+            var headings = [];
+            for (var i=0; i<result.length; i++) {
+                if (headings.length == 0) {
+                    headings.push( { header: result[i].question, key: result[i].question, width: 30 })
+                }
+                else {
+                    var isFound = false;
+                    for (var j=0; j<headings.length;j++) {
+                        if (headings[j].header == result[i].question) {
+                            isFound = true;
+                            break;
+                        }
+                    }
+                    if (isFound) {
+                        break;
+                    }
+                    else {
+                        headings.push({ header: result[i].question, key: result[i].question, width: 30 })
+                    }
+                }
+            }
+
+            sheet.columns = headings;
+            sheet.addRow({id: 1, name: 'John Doe', dob: new Date(1970,1,1)});
+            for (var i =0; i< result.length; i++ ) {
+                var obj = {};
+                for (var j=0; j<headings.length;j++) {
+                    if (result[i] != undefined) {
+                        if (result[i].userresponse) {
+                            obj[headings[j].key] = result[i].userresponse
+                        } else {
+                            obj[headings[j].key] = 'NULL'
+                        }
+                        i++;
+                    }
+                }
+                sheet.addRow(obj);
+                i--;
+            }
+
+            workbook.commit();
+        }
+   });
+
+
+
+
+//   sheet.columns = [
+//     { header: 'Id', key: 'id', width: 10 },
+//     { header: 'Name', key: 'name', width: 32 },
+//     { header: 'D.O.B.', key: 'dob', width: 10, outlineLevel: 1 }
+// ];
+
+//   sheet.addRow({id: 1, name: 'John Doe', dob: new Date(1970,1,1)});
+//   sheet.addRow({id: 2, name: 'Jane Doe', dob: new Date(1965,1,7)});
+//     workbook.commit();
 }

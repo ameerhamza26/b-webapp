@@ -61,6 +61,7 @@ module.exports = function (app) {
     app.post('/resources/edit/:id/:causeId', resources.edit);
 
     app.get('/api/download/userresponse/:surveyId', survey.download);
+    app.get('/api/downloadexcel/:surveyId', survey.downloadExcel);
 
     app.get('/userresponse/:causeId', survey.getUserResponse);
 
