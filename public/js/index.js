@@ -251,13 +251,45 @@ $(document).ready(function(){
         $.get('/api/download/userresponse/'+this.value, function(data,status) {
             console.log("data user response",data);
             if (data.data.length > 0) {
+                var headings = [];
+                for (var i=0; i<data.data.length; i++) {
+                    if (headings.length == 0) {
+                        headings.push(data.data[i].question)
+                    }
+                    else {
+                        var isFound = false;
+                        for (var j=0; j<headings.length;j++) {
+                            if (headings[j] == data.data[i].question) {
+                                isFound = true;
+                                break;
+                            }
+                        }
+                        if (isFound) {
+                            break;
+                        }
+                        else {
+                            headings.push(data.data[i].question)
+                        }
+                    }
+                }
+                
                 html= "<table class='table table-striped mx-3 my-3'> \
-                    <thead class='thead-dark'><tr><th>Question</th> \
-                    <th>User Response</th> </tr></thead>\
-                     ";
+                    <thead class='thead-dark'><tr> ";
+                    for (var i =0; i< headings.length;i++) {
+                        html += "<th>" + headings[i]+ "</th>"
+                    }
+                    html += "</tr></thead>";
+
                     for (var i =0; i< data.data.length; i++ ) {
-                        html+= "<tr><td>" + data.data[i].question + "</td>";
-                        html+= "<td>" + data.data[i].userresponse + "</td></tr>";
+                        html+="<tr>"
+                        for (var j=0; j<headings.length;j++) {
+                            if (data.data[i] != undefined) {
+                                html+= "<td>" + data.data[i].userresponse + "</td>";
+                                i++;
+                            }
+                        }
+                        i--;
+                        html+= "</tr>";
                     }
                         
                 html+= "    \
