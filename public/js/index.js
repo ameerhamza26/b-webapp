@@ -168,15 +168,111 @@ function showToastMsg(heading, text, icon) {
     })
 }
 
+function deleteCause(causeId) {
+    $.confirm({
+        title: 'Confirm!',
+        content: 'Are you sure you want to delete this cause?',
+        buttons: {
+            confirm: function () {
+                $.post('/cause/remove/'+ causeId , 
+                { 
+                }, function(data,status) {
+                    window.location = "/home";
+                });
+            },
+            cancel: function () {
+                
+            }
+        }
+    });
+}
+
+function deleteEvent(eventId,causeId) {
+    $.confirm({
+        title: 'Confirm!',
+        content: 'Are you sure you want to delete this event?',
+        buttons: {
+            confirm: function () {
+                $.post('/events/remove/'+ eventId , 
+                { 
+                }, function(data,status) {
+                    window.location = "/events/"+causeId;
+                });
+            },
+            cancel: function () {
+                
+            }
+        }
+    });
+}
+
+function deleteTalkingPoint(id,causeId) {
+    $.confirm({
+        title: 'Confirm!',
+        content: 'Are you sure you want to delete this talking point?',
+        buttons: {
+            confirm: function () {
+                $.post('/talkingpoints/remove/'+ id , 
+                { 
+                }, function(data,status) {
+                    window.location = "/talkingpoints/"+causeId;
+                });
+            },
+            cancel: function () {
+                
+            }
+        }
+    });
+}
+
+function deleteResource(id,causeId) {
+    $.confirm({
+        title: 'Confirm!',
+        content: 'Are you sure you want to delete this resource?',
+        buttons: {
+            confirm: function () {
+                $.post('/resources/remove/'+ id , 
+                { 
+                }, function(data,status) {
+                    window.location = "/resources/"+causeId;
+                });
+            },
+            cancel: function () {
+                
+            }
+        }
+    });
+}
+
+function deleteSurvey(id,causeId) {
+    $.confirm({
+        title: 'Confirm!',
+        content: 'Are you sure you want to delete this survey?',
+        buttons: {
+            confirm: function () {
+                $.post('/survey/remove/'+ id , 
+                { 
+                }, function(data,status) {
+                    window.location = "/survey/"+causeId;
+                });
+            },
+            cancel: function () {
+                
+            }
+        }
+    });
+}
 ///////////////////////////////////////validation ends///////////////////////////////////////////
 $(document).ready(function(){
     console.log("in javaascript");
+
+
     $('#event-search').on('input', function() {
-        
-            $.get("/cause/search?title=" + $('#event-search').val(), function(data, status){
+
+            $.get("/cause/search/"+ $("#selectedCause").val()+"?title=" + $('#event-search').val(), function(data, status){
                 var html="";
                 for (var i = 0; i<data.data.length;i++) {
-                    html+= '<a href="/events/edit/'+data.data[i].ID+'" class="list-group-item">'+
+                    html+= '<a href="/events/edit/'+data.data[i].ID+'/'+$("#selectedCause").val()+'" class="list-group-item">'+
                     '<h4 class="list-group-item-heading">'+ data.data[i].Title + '</h4>'+
                     '<span>Cause: </span> <span>' + data.data[i].CauseTitle+ '</span>' +
                     '</a>'
@@ -188,10 +284,10 @@ $(document).ready(function(){
 
     $('#talkingpoint-search').on('input', function() {
         
-            $.get("/api/cause/search/talkinpoint?title=" + $('#talkingpoint-search').val(), function(data, status){
+            $.get("/api/cause/search/talkinpoint/"+ $("#selectedCause").val()+"?title=" + $('#talkingpoint-search').val(), function(data, status){
                 var html="";
                 for (var i = 0; i<data.data.length;i++) {
-                    html+= '<a href="/talkingpoints/edit/'+data.data[i].ID+'" class="list-group-item">'+
+                    html+= '<a href="/talkingpoints/edit/'+data.data[i].ID+'/'+$("#selectedCause").val()+'" class="list-group-item">'+
                     '<h4 class="list-group-item-heading">'+ data.data[i].Title + '</h4>'+
                     '<p class="list-group-item-text">'+ data.data[i].Description+'</p>' + 
                     '</a>'
@@ -203,10 +299,10 @@ $(document).ready(function(){
 
     $('#resources-search').on('input', function() {
         
-            $.get("/api/cause/search/resources?title=" + $('#resources-search').val(), function(data, status){
+            $.get("/api/cause/search/resources/"+ $("#selectedCause").val()+"?title=" + $('#resources-search').val(), function(data, status){
                 var html="";
                 for (var i = 0; i<data.data.length;i++) {
-                    html+= '<a href="/resources/edit/'+data.data[i].ID+'" class="list-group-item">'+
+                    html+= '<a href="/resources/edit/'+data.data[i].ID+'/'+$("#selectedCause").val()+'" class="list-group-item">'+
                     '<h4 class="list-group-item-heading">'+ data.data[i].Title + '</h4>'+
                     '<p class="list-group-item-text">'+ data.data[i].Description+'</p>' + 
                     '</a>'
@@ -218,10 +314,10 @@ $(document).ready(function(){
 
     $('#localmedia-search').on('input', function() {
         
-        $.get("/api/localmedia/search?text=" + $('#localmedia-search').val(), function(data, status){
+        $.get("/api/localmedia/search/"+ $("#selectedCause").val()+"?text=" + $('#localmedia-search').val(), function(data, status){
             var html="";
             for (var i = 0; i<data.data.length;i++) {
-                html+= '<a href="/localmedia/edit/'+data.data[i].ID+'" class="list-group-item">'+
+                html+= '<a href="/localmedia/edit/'+data.data[i].ID+'/'+$("#selectedCause").val()+'" class="list-group-item">'+
                 '<h4 class="list-group-item-heading">'+ data.data[i].Name + '</h4>'+
                 '</a>'
             }
@@ -232,10 +328,10 @@ $(document).ready(function(){
 
     $('#survey-search').on('input', function() {
         
-        $.get("/api/survey/search?text=" + $('#survey-search').val(), function(data, status){
+        $.get("/api/survey/search/"+ $("#selectedCause").val()+"?text=" + $('#survey-search').val(), function(data, status){
             var html="";
             for (var i = 0; i<data.data.length;i++) {
-                html+= '<a href="/survey/edit/'+data.data[i].ID+'" class="list-group-item">'+
+                html+= '<a href="/survey/edit/'+data.data[i].ID+'/'+$("#selectedCause").val()+'" class="list-group-item">'+
                 '<h4 class="list-group-item-heading">'+ data.data[i].Title + '</h4>'+
                 '</a>'
             }
@@ -250,6 +346,71 @@ $(document).ready(function(){
         $(this).addClass("open");
         $('.selectpicker').addClass('open');
    });
+
+   $('#survey-response-select').on('change',function() {
+       if (this.value) {
+
+        var surveyId = this.value;
+        $.get('/api/download/userresponse/'+this.value, function(data,status) {
+            console.log("data user response",data);
+            if (data.data.length > 0) {
+                var headings = [];
+                for (var i=0; i<data.data.length; i++) {
+                    if (headings.length == 0) {
+                        headings.push(data.data[i].question)
+                    }
+                    else {
+                        var isFound = false;
+                        for (var j=0; j<headings.length;j++) {
+                            if (headings[j] == data.data[i].question) {
+                                isFound = true;
+                                break;
+                            }
+                        }
+                        if (isFound) {
+                            break;
+                        }
+                        else {
+                            headings.push(data.data[i].question)
+                        }
+                    }
+                }
+                html = "<a href='/api/downloadexcel/"+surveyId+"'>Download Excel</a>";
+                 html += "<table id='table-downloadable' class='table table-striped mx-3 my-3'> \
+                    <thead class='thead-dark'><tr> ";
+                    for (var i =0; i< headings.length;i++) {
+                        html += "<th>" + headings[i]+ "</th>"
+                    }
+                    html += "</tr></thead>";
+
+                    for (var i =0; i< data.data.length; i++ ) {
+                        html+="<tr>"
+                        for (var j=0; j<headings.length;j++) {
+                            if (data.data[i] != undefined) {
+                                html+= "<td>" + data.data[i].userresponse + "</td>";
+                                i++;
+                            }
+                        }
+                        i--;
+                        html+= "</tr>";
+                    }
+                        
+                html+= "    \
+                </table>";
+                console.log("html ",html);
+                $('#user-response-div').html(html)
+            }
+            else {
+                $('#user-response-div').html("")
+            }
+        })
+       }
+       else {
+        $('#user-response-div').html("")
+       }
+
+   });
+
 
    $('#country-select').on('change', function() {
     $('#state-select')
@@ -443,7 +604,7 @@ $.get("/files/editquestiontemplate", function( my_var ) {
 
 
     $('#survey-submit').click(function() {
-        $.post('/create/survey', 
+        $.post('/create/survey/' +$('#selectedCause').val() , 
         { title: $('#survey-title-text').val(),
           causeId: $('#survey-cause-id').val()  
         }, function(data,status) {
@@ -459,10 +620,9 @@ $.get("/files/editquestiontemplate", function( my_var ) {
     var url = window.location.href;
 
     if (url.indexOf('/survey/edit') != -1) {
-        var id = url.split('/')[url.split('/').length -1];
+        var id = url.split('/')[url.split('/').length -2];
         surveyId=id;
         $.get('/api/questions/'+id, function(data,status) {
-            console.log(data);
           
             setTimeout(function() {
                 $('#survey-question-div').show();
@@ -500,12 +660,12 @@ $.get("/files/editquestiontemplate", function( my_var ) {
     }
 
     $('#survey-submit-edit').click(function() {
-        $.post('/survey/edit/'+surveyId, 
+        $.post('/survey/edit/'+surveyId+'/'+$('#selectedCause').val(), 
         { title: $('#survey-title-text').val(),
           causeId: $('#survey-cause-id').val()  
         }, function(data,status) {
-            console.log("editQuestionCount",editQuestionCount);
-            if (editQuestionCount> 0) {
+            console.log("editQuestionCount",editQuestionCount, status);
+            if (editQuestionCount> 0 && status == 'success') {
                 var finalObj = [];
                 for (var i = 1; i<=editQuestionCount;i++) {
                     if ($('#main-question-div-'+i).length) {
@@ -529,9 +689,10 @@ $.get("/files/editquestiontemplate", function( my_var ) {
                     contentType:"application/json",
                     dataType:"json",
                     success: function(){
-                        window.location = "/survey";
+                        var id = document.getElementById('selectedCause').value;
+                        window.location = "/survey/"+id;
                     }
-                    })
+                })
             }
         })
     })
@@ -666,8 +827,9 @@ function submitQuestions() {
                     icon: getCookie2('icon')
                 })
         
+                var id = document.getElementById('selectedCause').value;
                 document.cookie = "message=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                window.location = "/survey";
+                window.location = "/survey/"+id;
             }
             })
     }

@@ -142,6 +142,6 @@ exports.get = function(req,res) {
         if (result.length <= 0)
             message = "Causes not found!";
 
-        res.render('sendnotification.ejs', { data: result, message: message });
+        res.render('sendnotification.ejs', { causes: result, message: message });
     });
 }

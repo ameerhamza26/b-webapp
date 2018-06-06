@@ -4,7 +4,7 @@ var config = require('../config');
 
 exports.create = function (req, res) {
     message = '';
-
+    var causeId = req.params.causeId;
     if (req.method == "POST") {
         
         var post = req.body;
@@ -25,15 +25,15 @@ exports.create = function (req, res) {
             res.cookie('message', 'Talking point is successfully created')
             res.cookie('icon', 'success')
             res.cookie('heading', 'Success')
-            res.redirect('/talkingpoints');
+            res.redirect('/talkingpoints/'+causeId);
         });
     } else {
-        var sql = "SELECT `ID`, `Title` FROM `causes`";
+        var sql = "SELECT * FROM `causes` where ID = " + causeId;
         db.query(sql, function (err, result) {
             if (result.length <= 0)
                 message = "Talking points not found!";
     
-            res.render('talkingpoints.ejs', { data: result, message: message });
+            res.render('talkingpoints.ejs', { causes: result, message: message });
         });
     }
 }
@@ -43,6 +43,7 @@ exports.create = function (req, res) {
 exports.edit = function (req, res) {
     var message = '';
     var id = req.params.id;
+    var causeId = req.params.causeId;
     if (req.method == 'POST') {
         var post = req.body;
         var cause_id = post.cause;
@@ -61,10 +62,10 @@ exports.edit = function (req, res) {
             console.log(query.sql);
             console.log('result------',result.insertId);
 
-            res.cookie('message', 'Talking point is successfully created')
+            res.cookie('message', 'Talking point is successfully updated')
             res.cookie('icon', 'success')
             res.cookie('heading', 'Success')
-            res.redirect('/talkingpoints');
+            res.redirect('/talkingpoints/'+ causeId);
         });
     }
     else {
@@ -79,7 +80,7 @@ exports.edit = function (req, res) {
                 return result;
             }).then(function(rows){
                 final_obj.data = rows;
-                sql = "SELECT `ID`, `Title` FROM `causes`";
+                sql = "SELECT * FROM `causes` where ID =" + causeId;
                 result = connection.query(sql);
                 // Logs out a list of hobbits
                 connection.end();
@@ -110,38 +111,72 @@ exports.list = function(req,res){
         return;
     }
 
-    var sql = "Select * From talkingpoints";
-    db.query(sql, function(err, result){
-        if(result.length >= 0){
-            res.render('talkingpointlist',{data: result});
-        }else{
-            res.render('talkingpointlist',{data:[]})
-        }
 
-    });
+    var causeId = req.params.causeId;
+
+    var sql = "Select * From talkingpoints where causeId = " + causeId;
+
+    var final_obj = {};
+    var connection;
+    mysql.createConnection(config.dbConfig).then(function(conn){
+        connection = conn;
+        var result = connection.query(sql);
+   
+        return result;
+    }).then(function(rows){
+        final_obj.data = rows;
+        sql = "SELECT * FROM `causes` where ID =" + causeId;
+        result = connection.query(sql);
+        // Logs out a list of hobbits
+        connection.end();
+        return result;
+    }).then(function(rows) {
+        final_obj.causes = rows;
+        res.render('talkingpointlist',final_obj);
+    })
 
 }
 
 exports.search = function(req,res) {
     var message = '';
     var title = req.query.title;
-    
+    var causeId = req.params.causeId;
+
     var sql = "select talkingpoints.* from talkingpoints \
     inner join \
     causes \
     on talkingpoints.CauseId = causes.ID \
     where talkingpoints.Title like '%"+ title+"%' \
-    or causes.Title like '%"+ title +"%' "; 
+    and causes.ID =  " + causeId; 
 
-    db.query(sql, function(err, result){
-        if (err) {
-            res.send({data:[]})
-        }
+    var connection;
+    mysql.createConnection(config.dbConfig).then(function(conn){
+        connection = conn;
+        var result = connection.query(sql);
+        connection.end();
+        return result;
+    }).then(function(rows){
+        res.send({data:rows});
+    })
+}
+
+exports.delete = function(req,res) {
+    var message = '';
+    var id = req.params.id;
+
+    var sql = "delete FROM `talkingpoints` where `id` =" + id;
         
-        if(result.length >= 0){
-            res.send({data: result});
-        }else{
-            res.send({data:[]})
-        }
-   });
+    var final_obj = {};
+    var connection;
+    mysql.createConnection(config.dbConfig).then(function(conn){
+        connection = conn;
+        var result = connection.query(sql);
+   
+        return result;
+    }).then(function(rows) {
+        res.cookie('message', 'Talking point is deleted successfully')
+        res.cookie('icon', 'success')
+        res.cookie('heading', 'Success')
+        res.send({status: 'success'});
+    })
 }

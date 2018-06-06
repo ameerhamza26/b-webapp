@@ -1,108 +1,121 @@
 <% include partials/head %>
-<body>
-    <% include partials/header %>
-    
-    <div class="container full-page">
-        <div class="py-5 text-center">
-            <h2 class="lead mt-5">Welcome to Burma cause management</h2>
-        </div>
 
-        <% include partials/sidemenu %>
-
-        <div class="col-md-8 order-md-2">
-            <h4 class="mb-3">Edit resources</h4>
-            <form id="add-resources-form" onsubmit="return validateResourcesForm()"  class="form-horizontal" role="form" method="post" action="/resources/edit/<%=data[0].ID%>">
-                <% if (message.length > 0) { %>
-                    <div class="alert alert-success col-sm-12">
-                        <%= message %>
-                    </div>
-                    <% } %>
-
-                    <div id="signupalert" style="display:none" class="alert alert-danger">
-                        <p>Error:</p>
-                        <span></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="first_name" class="col-md-3 control-label">Title</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" maxlength="99" name="title" placeholder="Title" value="<%=data[0].Title%>">
+    <body>
+        <% include partials/header %>
+            <div>
+                    <div class="banner">
+                <div class="container">
+                        <a href="/home" class="float-left banner-link">
+                            <img src="../../svg/back.svg"> BACK TO CAUSES</a>
+                        <a href="/causes/edit/<%=causes[0].ID%>" class="float-right banner-link">EDIT CAUSE</a>
+                        <div class="py-5 text-center">
+                            <h2 class="lead"><%=causes[0].Title%></h2>
                         </div>
                     </div>
+                </div>
+                <div class="container full-page">
+                <% var selectedCauseId= causes[0].ID; %>
+                <% include partials/sidemenu %>
 
-                    <div class="form-group">
-                        <label for="title" class="col-md-3 control-label">Select cause</label>
-                        <div class="col-md-9">
-                            <select class="form-control" name="cause" id="drpdwn" value="<%=data[0].CauseId%>">
-                                <option value="">Select Cause</option>
-                                <%for(var i=0;i< causes.length;i++){ %>
-                                    <%if (causes[i].ID == data[0].CauseId) { %>
-                                        <option value='<%= causes[i].ID %>' selected />
-                                        <% } else {  %>
-                                            
-                                             <option value='<%= causes[i].ID %>' />
-                                        <% } %>
-                                    <%=causes[i].Title%>
-                                        </option>
-                                        <% }%>
+                        <div class="col-md-8 order-md-2">
+                            <div class="row align-items-center mb-3">
+                                <div class="col-md-12">
+                                    <h4 class="mb-0 txt-red">Edit Resources</h4>
+                                </div>
+                            </div>
+                            <form id="add-resources-form" onsubmit="return validateResourcesForm()" class="form-horizontal" role="form" method="post"
+                                action="/resources/edit/<%=data[0].ID%>/<%=causes[0].ID%>">
+                                <% if (message.length > 0) { %>
+                                    <div class="alert alert-success col-sm-12">
+                                        <%= message %>
+                                    </div>
+                                    <% } %>
 
-                                        
+                                        <div id="signupalert" style="display:none" class="alert alert-danger">
+                                            <p>Error:</p>
+                                            <span></span>
+                                        </div>
 
-                            </select>
+                                        <div class="form-group">
+                                            <label for="first_name" class="col-md-3 control-label">Title</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" maxlength="99" name="title" placeholder="Title" value="<%=data[0].Title%>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="title" class="col-md-3 control-label">Select cause</label>
+                                            <div class="col-md-9">
+                                                <select class="form-control" name="cause" id="drpdwn" value="<%=data[0].CauseId%>" readonly>
+                                                    <%for(var i=0;i< causes.length;i++){ %>
+                                                        <%if (causes[i].ID == data[0].CauseId) { %>
+                                                            <option value='<%= causes[i].ID %>' selected>
+                                                                <% } else {  %>
+
+                                                                    <option value='<%= causes[i].ID %>' />
+                                                                    <% } %>
+                                                                        <%=causes[i].Title%>
+                                                            </option>
+                                                            <% }%>
+
+
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="last_name" class="col-md-3 control-label">Description</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" maxlength="1999" name="description" placeholder="Description" value="<%=data[0].Description%>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="last_name" class="col-md-3 control-label">Add reference urls</label>
+                                            <%if (typeof url[0] != 'undefined') { %>
+                                                <div class="col-md-9">
+                                                    <input type="url" class="form-control" name="url1" placeholder="Reference url 1  e.g http://www.example.com" value="<%=url[0].Url%>">
+                                                </div>
+
+                                                <% } else {  %>
+                                                    <div class="col-md-9">
+                                                        <input type="url" class="form-control" name="url1" placeholder="Reference url 1 e.g http://www.example.com">
+                                                    </div>
+                                                    <% }%>
+                                                        <%if (typeof url[1] != 'undefined') { %>
+                                                            <div class="col-md-9">
+                                                                <input type="url" class="form-control" name="url2" placeholder="Reference url 2 e.g http://www.example.com" value="<%=url[1].Url%>">
+                                                            </div>
+
+                                                            <% } else {  %>
+                                                                <div class="col-md-9">
+                                                                    <input type="url" class="form-control" name="url2" placeholder="Reference url 2 e.g http://www.example.com">
+                                                                </div>
+                                                                <% }%>
+                                                                    <%if (typeof url[2] != 'undefined') { %>
+                                                                        <div class="col-md-9">
+                                                                            <input type="url" class="form-control" name="url3" placeholder="Reference url 3 e.g http://www.example.com" value="<%=url[2].Url%>">
+                                                                        </div>
+
+                                                                        <% } else {  %>
+                                                                            <div class="col-md-9">
+                                                                                <input type="url" class="form-control" name="url3" placeholder="Reference url 3 e.g http://www.example.com">
+                                                                            </div>
+                                                                            <% }%>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <!-- Button -->
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button id="btn-signup" type="submit" class="btn btn-primary">
+                                                    <i class="icon-hand-right"></i> &nbsp Submit</button>
+                                            </div>
+                                        </div>
+                            </form>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="last_name" class="col-md-3 control-label">Description</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" maxlength="1999" name="description" placeholder="Description" value="<%=data[0].Description%>">
-                        </div>
-                    </div>   
-
-                    <div class="form-group">
-                        <label for="last_name" class="col-md-3 control-label">Add reference urls</label>
-                        <%if (typeof url[0] != 'undefined') { %>
-                            <div class="col-md-9">
-                                <input type="url" class="form-control" name="url1" placeholder="Reference url 1  e.g http://www.example.com" value="<%=url[0].Url%>">
-                            </div>
-                        
-                        <% } else {  %>
-                            <div class="col-md-9">
-                                <input type="url" class="form-control" name="url1" placeholder="Reference url 1 e.g http://www.example.com" >
-                            </div>
-                        <% }%>
-                        <%if (typeof url[1] != 'undefined') { %>
-                            <div class="col-md-9">
-                                <input type="url" class="form-control" name="url2" placeholder="Reference url 2 e.g http://www.example.com" value="<%=url[1].Url%>">
-                            </div>
-                        
-                        <% } else {  %>
-                            <div class="col-md-9">
-                                <input type="url" class="form-control" name="url2" placeholder="Reference url 2 e.g http://www.example.com" >
-                            </div>
-                        <% }%>
-                        <%if (typeof url[2] != 'undefined') { %>
-                            <div class="col-md-9">
-                                <input type="url" class="form-control" name="url3" placeholder="Reference url 3 e.g http://www.example.com" value="<%=url[2].Url%>">
-                            </div>
-                        
-                        <% } else {  %>
-                            <div class="col-md-9">
-                                <input type="url" class="form-control" name="url3" placeholder="Reference url 3 e.g http://www.example.com" >
-                            </div>
-                        <% }%>
-                        
-                    </div>   
-
-                    <div class="form-group">
-                        <!-- Button -->                                       
-                        <div class="col-md-offset-3 col-md-9">
-                            <button id="btn-signup" type="submit" class="btn btn-primary"><i class="icon-hand-right"></i> &nbsp Submit</button>
-                        </div>
-                    </div>  
-            </form>
-        </div>
-    </div>
-
-    <% include partials/footer %>
-</body>
+                </div>
+            </div>
+            <% include partials/footer %>
+    </body>

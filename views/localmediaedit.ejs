@@ -1,113 +1,130 @@
 <% include partials/head %>
-<body>
-    <% include partials/header %>
-    
-    <div class="container full-page">
-        <div class="py-5 text-center">
-            <h2 class="lead mt-5">Welcome to Burma cause management</h2>
-        </div>
 
-        <% include partials/sidemenu %>
+    <body>
+        <% include partials/header %>
+            <div>
+                <div class="banner">
+                        <div class="container">
+                            <a href="/home" class="float-left banner-link">
+                                <img src="../../svg/back.svg"> BACK TO CAUSES</a>
+                            <a href="/causes/edit/<%=causes[0].ID%>" class="float-right banner-link">EDIT CAUSE</a>
+                            <div class="py-5 text-center">
+                                <h2 class="lead"><%=causes[0].Title%></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container full-page">
+                    <% var selectedCauseId= causes[0].ID; %>
+                    <% include partials/sidemenu %>
 
-        <div class="col-md-8 order-md-2">
-            <h4 class="mb-3">Edit local media</h4>
+                        <div class="col-md-8 order-md-2">
+                            <div class="row align-items-center mb-3">
+                                <div class="col-md-8">
+                                    <h4 class="mb-0 txt-red">Edit Local Media</h4>
+                                </div>
+                            </div>
 
-            <form  id="add-media-form" onsubmit="return validateLocalMediaForm('edit')" class="needs-validation" method="post" action="/localmedia/edit/<%= data[0].ID %>" enctype="multipart/form-data" novalidate="">
-                <% if (message.length > 0) { %>
-                    <div class="alert alert-success col-sm-12"><%= message %></div>
-                <% } %>
-
-                <div class="form-group">
-                    <label for="title" class="col-md-3 control-label">Select country</label>
-                    <div class="col-md-9">
-                        <select id="country-select" class="form-control" name="countryId" id="drpdwn">
-                            
-                            <%for(var i=0;i< countries.length;i++){ %>
-                                <%if (countries[i].id == data[0].CountryId) { %>
-                                    <option value='<%= countries[i].id %>' selected />
-                                    <% } else {  %>
-                                        
-                                            <option value='<%= countries[i].id %>' />
+                            <form id="add-media-form" onsubmit="return validateLocalMediaForm('edit')" class="needs-validation" method="post" action="/localmedia/edit/<%= data[0].ID %>/<%=causes[0].ID%>"
+                                enctype="multipart/form-data" novalidate="">
+                                <% if (message.length > 0) { %>
+                                    <div class="alert alert-success col-sm-12">
+                                        <%= message %>
+                                    </div>
                                     <% } %>
-                                <%=countries[i].name%>
-                                    </option>
-                                    <% }%>
-                        </select>
-                    </div>
+
+                                        <div class="form-group">
+                                            <label for="title" class="col-md-3 control-label">Select country</label>
+                                            <div class="col-md-9">
+                                                <select id="country-select" class="form-control" name="countryId" id="drpdwn">
+
+                                                    <%for(var i=0;i< countries.length;i++){ %>
+                                                        <%if (countries[i].id == data[0].CountryId) { %>
+                                                            <option value='<%= countries[i].id %>' selected>
+                                                                <% } else {  %>
+
+                                                                    <option value='<%= countries[i].id %>' />
+                                                                    <% } %>
+                                                                        <%=countries[i].name%>
+                                                            </option>
+                                                            <% }%>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="title" class="col-md-3 control-label">Select state</label>
+                                            <div class="col-md-9">
+                                                <select id="state-select" class="form-control" name="stateId" id="drpdwn">
+
+                                                    <%for(var i=0;i< states.length;i++){ %>
+                                                        <%if (states[i].id == data[0].StateId) { %>
+                                                            <option value='<%= states[i].id %>' selected>
+                                                                <% } else {  %>
+
+                                                                    <option value='<%= states[i].id %>' />
+                                                                    <% } %>
+                                                                        <%=states[i].name%>
+                                                            </option>
+                                                            <% }%>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="title" class="col-md-3 control-label">Select city</label>
+                                            <div class="col-md-9">
+                                                <select id="city-select" class="form-control" name="cityId" id="drpdwn">
+                                                    <%for(var i=0;i< cities.length;i++){ %>
+                                                        <%if (cities[i].id == data[0].CityId) { %>
+                                                            <option value='<%= cities[i].id %>' selected>
+                                                                <% } else {  %>
+
+                                                                    <option value='<%= cities[i].id %>' />
+                                                                    <% } %>
+                                                                        <%=cities[i].name%>
+                                                            </option>
+                                                            <% }%>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="first_name" class="col-md-3 control-label">Media channel name</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="name" placeholder="Media channel name" value="<%= data[0].Name %>">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="last_name" class="col-md-3 control-label">Contact</label>
+                                            <div class="col-md-9">
+                                                <input type="number" class="form-control" name="contact" placeholder="Contact" value="<%= data[0].Contact %>">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="mob_no" class="col-md-3 control-label">Logo image</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="file" name="uploaded_image" accept="" value="<%= data[0].Image %>" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 " align="center">
+                                            <img alt="User Pic" src="/images/upload_images/<%=data[0].Image%>" class="img-thumbnail my-2"> </div>
+                                        <div class="form-group">
+                                            <!-- Button -->
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button id="btn-signup" type="submit" class="btn btn-primary">
+                                                    <i class="icon-hand-right"></i> &nbsp Submit</button>
+                                            </div>
+                                        </div>
+
+                            </form>
+
+
+
+
+                        </div>
+
                 </div>
+            </div>
+            <% include partials/footer %>
 
-                <div class="form-group">
-                    <label for="title" class="col-md-3 control-label">Select state</label>
-                    <div class="col-md-9">
-                        <select id="state-select" class="form-control" name="stateId" id="drpdwn">
-                           
-                            <%for(var i=0;i< states.length;i++){ %>
-                                <%if (states[i].id == data[0].StateId) { %>
-                                    <option value='<%= states[i].id %>' selected />
-                                    <% } else {  %>
-                                        
-                                            <option value='<%= states[i].id %>' />
-                                    <% } %>
-                                <%=states[i].name%>
-                                    </option>
-                                    <% }%>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="title" class="col-md-3 control-label">Select city</label>
-                    <div class="col-md-9">
-                        <select id="city-select" class="form-control" name="cityId" id="drpdwn">
-                            <%for(var i=0;i< cities.length;i++){ %>
-                                <%if (cities[i].id == data[0].CityId) { %>
-                                    <option value='<%= cities[i].id %>' selected />
-                                    <% } else {  %>
-                                        
-                                            <option value='<%= cities[i].id %>' />
-                                    <% } %>
-                                <%=cities[i].name%>
-                                    </option>
-                                    <% }%>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                        <label for="first_name" class="col-md-3 control-label">Media channel name</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="name" placeholder="Media channel name" value="<%= data[0].Name %>">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="last_name" class="col-md-3 control-label">Contact</label>
-                        <div class="col-md-9">
-                            <input type="number" class="form-control" name="contact" placeholder="Contact" value="<%= data[0].Contact %>">
-                        </div>
-                    </div>                  
-                    <div class="form-group">
-                        <label for="mob_no" class="col-md-3 control-label">Logo image</label>
-                        <div class="col-sm-9">
-                            <input class="form-control" type="file" name="uploaded_image" accept="" value="<%= data[0].Image %>" />
-                        </div>
-                    </div>             
-                    <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="/images/upload_images/<%=data[0].Image%>" class="img-thumbnail my-2"> </div>                   
-                    <div class="form-group">
-                        <!-- Button -->                                       
-                        <div class="col-md-offset-3 col-md-9">
-                            <button id="btn-signup" type="submit" class="btn btn-primary"><i class="icon-hand-right"></i> &nbsp Submit</button>
-                        </div>
-                    </div>  
-
-            </form>
-
-        
-                
-                
-        </div>
-
-    </div>
-
-    <% include partials/footer %>
-
-</body>
+    </body>

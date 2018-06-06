@@ -1,4 +1,6 @@
 var authentication =require('../helpers/authentication');
+var config = require('../config');
+var mysql = require('promise-mysql');
 /*
 * GET home page.
 */
@@ -66,19 +68,25 @@ exports.signup = function(req, res){
        var pass= post.password;
       
        var sql="SELECT id, first_name, last_name, user_name FROM `users` WHERE `user_name`='"+name+"' and password = '"+pass+"'";                           
-       db.query(sql, function(err, results){      
-          if(results.length){
-             req.session.userId = results[0].id;
-             req.session.user = results[0];
-             console.log(results[0].id);
-             res.redirect('/home');
-          }
-          else{
-             message = 'Wrong Credentials.';
-             res.render('login.ejs',{message: message});
-          }
-                  
-       });
+       var connection;
+       mysql.createConnection(config.dbConfig).then(function(conn){
+           connection = conn;
+           var result = connection.query(sql);
+           connection.end();
+           return result;
+       }).then(function(rows){
+           if (rows.length > 0) {
+            req.session.userId = rows[0].id;
+            req.session.user = rows[0];
+            console.log(rows[0].id);
+            res.redirect('/home');
+           }
+           else {
+            message = 'Wrong Credentials.';
+            res.render('login.ejs',{message: message});
+           }
+       })
+       
     } else {
        res.render('login.ejs',{message: message});
     }         
